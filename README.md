@@ -3,12 +3,14 @@ Here we present our workflow to generate consensus motifs from motif pairwise co
 
 Work Flow
 Tomtom results(pair-wise comparison of motifs)
-		| \s
- 		| graph analysis and cluster by degree \s
-	cluster groups of motifs \s
-		| \s
-		| Run MotifSetReduce.pl \s
-	generate consensus motif for each group \s
+		| \s\s
+ 		| graph analysis and cluster by degree \s\s
+		| \s\s
+	cluster groups of motifs \s\s
+		| \s\s
+		| Run MotifSetReduce.pl \s\s
+		| \s\s
+	generate consensus motif for each group \s\s
 
 ##Tomtom results
 Tomtom is the software package included in MEME suite to do comparsion of motifsagainst known motif databases or motifs provided by users
