@@ -1,7 +1,7 @@
 #Identify Consensus Motifs from Tomtom Results
 Here we present our workflow to generate consensus motifs from motif pairwise comparison results done by Tomtom.
 
-Work Flow
+##Work Flow
 Tomtom results(pair-wise comparison of motifs)
 		| \s\s
  		| graph analysis and cluster by degree \s\s
