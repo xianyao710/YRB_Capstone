@@ -2,15 +2,15 @@
 Here we present our workflow to generate consensus motifs from motif pairwise comparison results done by Tomtom.
 
 ##Work flow
-Tomtom results(extractpair-wise comparison of motifs) <br/>
+Tomtom results(extract pair-wise comparison of motifs) <br/>
                 ||<br/>
                 || graphic analysis and cluster motifs by degree <br/>
                 ||<br/>
-        groups of clustered motifs in MEME format <br/>
+        extract clustered motifs in MEME format <br/>
                 || <br/>
                 || Run MotifSetReduce.pl <br/>
                 || <br/>
-        consensus motif for each group <br/>
+        generate consensus motif for each group <br/>
 
 ##Tomtom results
 Tomtom is the software package included in MEME suite to do comparsion of motifs against known motif databases or motifs provided by users.You can find a sample output under /data directory.<br/>
@@ -47,6 +47,6 @@ $for file in ls Motif_group*.txt;do ./MotifSetReduce.pl -m $file > $file.consens
 </code></pre>
 
 ##Results and discussion
-The initial Tomtom file contains 228 motifs. By taking each steps in this workflow, we generate 8 clusters of motifs and extract the convert them in MEME format.(under /data directory motif_group[index].txt ).By comparing the inital Tomtom graph and processed graph, we confirmed that these clusters are the connected components that every node in each group has degree more than 8. After having 8 groups of motifs,we generate consensus motif for each group shown in PFM format.The predicted consensus motifs are presented in the order of IC(information content) value. And the motifs with max IC are plotted in R using package seqLogo. The consensus motif files are named VB_[group_index].txt and the seqLogo files are located in /results directory.
+The initial Tomtom file contains 228 motifs. By taking each steps in this workflow, we generate 8 clusters of motifs and extract the convert them in MEME format.(under /data directory motif_group[index].txt ).By comparing the inital Tomtom graph and processed graph, we confirmed that these clusters are the connected components that every node in each group has degree more than 8. After having 8 groups of motifs,we generate consensus motif for each group shown in PFM format.The predicted consensus motifs are presented in the order of IC(information content) value. And the motifs with max IC are plotted in R using package seqLogo. The consensus motif files are named VB_[group_index].txt together with the seqLogo files,located in /results directory.
 
 
