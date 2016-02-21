@@ -2,11 +2,11 @@
 Here we present our workflow to generate consensus motifs from motif pairwise comparison results done by Tomtom.
 
 ##Work flow
-Tomtom results(pair-wise comparison of motifs) <br/>
+Tomtom results(extractpair-wise comparison of motifs) <br/>
                 ||<br/>
                 || graphic analysis and cluster motifs by degree <br/>
                 ||<br/>
-        groups of clustered motifs <br/>
+        groups of clustered motifs in MEME format <br/>
                 || <br/>
                 || Run MotifSetReduce.pl <br/>
                 || <br/>
@@ -17,7 +17,7 @@ Tomtom is the software package included in MEME suite to do comparsion of motifs
 <pre><code/>$cut -f 1,2 tomtom.txt > raw_adjlist
 </code></pre>
 ##Using python package networkx to cluster motifs
-Here we ultilize the well developed python package [networkx](http://networkx.github.io) to analyze our motifs<br/>
+Here we ultilize the well developed python package [networkx](http://networkx.github.io) to analyze our motifs.After running the commands below, we generated a new graph containing 8 connected components that represent 8 motif clusters<br/>. 
 <pre><code>
 	$python<br/>
 	>>>import networkx as nx<br/>
@@ -35,11 +35,12 @@ Here we ultilize the well developed python package [networkx](http://networkx.gi
 	>>>44<br/>
 	>>>len(G.edges())<br/>
 	>>>176<br/>
+	>>>nx.write_adjlist(G,"motif_cluster")
 </code></pre>
 	   
 
 ##Run MotifSetReduce.pl to generate consensus motifs 
-
+For this step, we extract the motifs for each group in MEME format and then run MotifSetReduce.pl to produce consensus motifs.
 Codes can be found under directory [MotifSetReduce](https://github.com/BrendelGroup/bghandbook/tree/master/demo/MotifSetReduce).<br/>
 <pre><code>
 $for file in ls Motif_group*.txt;do ./MotifSetReduce.pl -m $file > $file.consensus ;done
