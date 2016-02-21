@@ -23,8 +23,6 @@ Here we ultilize the well developed python package [networkx](http://networkx.gi
 	>>>import networkx as nx<br/>
 	>>>G=nx.read_adjlist("raw_adjlist",nodetype=str)
 	>>>len(G.nodes())<br/>
-	>>>228 #number of initial nodes<br/>
-	>>>len(G.edges())<br/>
 	>>>647 #number of initial edges <br/>
 	>>>for node in G.nodes():<br/>
 	...		if nx.degree(G,node)<=9:<br/>
@@ -38,7 +36,7 @@ Here we ultilize the well developed python package [networkx](http://networkx.gi
 </code></pre>
 	   
 
-##Run MotifSetReduce.pl to generate consensus motifs
+##Run MotifSetReduce.pl to generate consensus motifs 
 
 Codes can be found under directory [MotifSetReduce](https://github.com/BrendelGroup/bghandbook/tree/master/demo/MotifSetReduce).<br/>
 <pre><code>
@@ -46,5 +44,5 @@ $for file in ls Motif_group*.txt;do ./MotifSetReduce.pl -m $file > $file.consens
 </code></pre>
 
 ##Results and discussion
-
+We generate consensus motif for each group shown in PFM format.The predicted consensus motifs are presented in the order of IC(information content) value. And the motifs with max IC are plotted in R using package seqLogo. The consensus motif files are named VN_[group_index].txt and the seqLogo files are located in /results directory.
 
