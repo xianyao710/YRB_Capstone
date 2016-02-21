@@ -121,8 +121,9 @@ DE	motif_10_14mmmmmm (7 positions) IC=  7.803
 0.611	0.024	0.165	0.200	A	0.543
 XX
 </code></pre>
+Use the package seqLogo in R, we show the representation of consensus motif for [group1](https://github.com/xianyao710/YRB_Capstone/blob/master/results/group1.png) .
 
 ##Results and discussion
-The initial Tomtom file contains 228 motifs. By taking each steps in this workflow, we generate 8 clusters of motifs and extract the convert them in MEME format.(under /data directory motif_group[index].txt ).By comparing the inital Tomtom graph and processed graph, we confirmed that these clusters are the connected components that every node in each group has degree more than 8. After having 8 groups of motifs,we generate consensus motif for each group shown in PFM format.The predicted consensus motifs are presented in the order of IC(information content) value. And the motifs with max IC are plotted in R using package seqLogo. The consensus motif files are named VB_[group_index].txt together with the seqLogo files,located in /results directory.
+The initial Tomtom file contains 228 motifs. By taking each steps in this workflow, we generate 8 clusters of motifs and extract the convert them in MEME format.(under /data directory motif_group[index].txt ).By comparing the inital Tomtom graph and processed graph, we confirmed that these clusters are the connected components that every node in each group has degree more than 8. After having 8 groups of motifs,we generate consensus motif for each group shown in PFM format.The predicted consensus motifs are presented in the order of IC(information content) value. And the motifs with max IC are plotted in R using package seqLogo. The consensus motif files are named VB_[group_index].txt together with the seqLogo files(named group[1-8].png),located in /results directory.
 
 
