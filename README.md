@@ -32,16 +32,16 @@ motif_Train1_1	motif_Train8_2	0	3.84316e-14	8.76241e-12	1.91407e-12	12	ATATAAAAA
 motif_Train1_1	motif_Train2_1	0	2.77109e-08	6.31808e-06	1.24212e-06	10	ATATAAAAAGCA	GTATAAAAGG	+
 motif_Train1_2	motif_Train1_2	0	2.60172e-24	5.93193e-22	1.13361e-21	10	TATCAGTCGA	TATCAGTCGA	+
 
-$cut -f 1,2 tomtom.txt > raw_adjlist
+$cut -f 1,2 tomtom.txt > raw_edgelist
 </code></pre>
-Since we want to construct graph for these motifs, we extracted the first two columns and append them to a new file [raw_adjlist](https://github.com/xianyao710/YRB_Capstone/blob/master/results/raw_adjlist).
+Since we want to construct graph for these motifs, we extracted the first two columns and append them to a new file [raw_edgelist](https://github.com/xianyao710/YRB_Capstone/blob/master/results/raw_edgelist).
 ##Using python package networkx to cluster motifs
-Here we ultilize the well developed python package [networkx](http://networkx.github.io) to analyze our motifs.Input is the raw_adjlist file from last step.After running the commands below, we generated a new graph containing 8 connected components that represent 8 motif clusters<br/>. 
+Here we ultilize the well developed python package [networkx](http://networkx.github.io) to analyze our motifs.Input is the raw_adjlist file from last step.After running the commands below, we generated a new graph containing 8 connected components that represent 8 motif clusters<br/>. Using [raw_edgelist](https://github.com/xianyao710/YRB_Capstone/blob/master/results/raw_edgelist) as input, we produce a subgraph that contains 8 clusters.([8_clusters.txt](https://github.com/xianyao710/YRB_Capstone/blob/master/results/8_clusters.txt),picture for this subgraph [8_clusters.png](https://github.com/xianyao710/YRB_Capstone/blob/master/results/8_clusters.png)) 
 <pre><code>
 $python
 >>>import networkx as nx
 >>>import matplotlib.pyplot as plt#this package is needed for drawing
->>>G=nx.read_edgelist("raw_adjlist",nodetype=str)
+>>>G=nx.read_edgelist("raw_edgelist",nodetype=str)
 >>>len(G.nodes())
 228
 >>>len(G.edges())
@@ -75,7 +75,7 @@ $python
 ...		nodes.append(each.nodes())
 >>>nodes
 [['motif_Train8_9', 'motif_Train1_10', 'motif_Train4_16', 'motif_Train9_12', 'motif_Train6_17', 'motif_Train3_12', 'motif_Train7_6', 'motif_10_14', 'motif_Train2_13', 'motif_Train5_11'], ['motif_Train9_8', 'motif_Train2_6', 'motif_Train5_8', 'motif_Train1_6', 'motif_Train3_6', 'motif_10_8', 'motif_Train7_5', 'motif_Train4_7', 'motif_Train6_7', 'motif_Train8_7'], ['motif_Train4_11', 'motif_Train1_11', 'motif_Train9_10', 'motif_Train7_10', 'motif_Train6_11', 'motif_Train3_11', 'motif_10_11', 'motif_Train8_10', 'motif_Train5_10', 'motif_Train2_10'], ['motif_Train7_24', 'motif_10_25', 'motif_Train1_19', 'motif_Train5_21', 'motif_Train6_26', 'motif_Train4_22', 'motif_Train8_23', 'motif_Train9_20', 'motif_Train3_18'], ['motif_Train9_2', 'motif_Train5_2', 'motif_Train6_2', 'motif_Train1_2', 'motif_Train2_2', 'motif_Train7_2', 'motif_Train3_2', 'motif_Train8_1', 'motif_10_2', 'motif_Train4_2'], ['motif_Train9_3', 'motif_Train5_3', 'motif_Train6_3', 'motif_Train1_3', 'motif_Train2_3', 'motif_Train7_3', 'motif_Train8_3', 'motif_Train4_3', 'motif_10_3'], ['motif_Train9_1', 'motif_Train5_1', 'motif_Train1_1', 'motif_Train6_1', 'motif_Train2_1', 'motif_Train7_1', 'motif_Train3_1', 'motif_Train8_2', 'motif_Train4_1', 'motif_10_1'], ['motif_Train5_4', 'motif_Train9_5', 'motif_Train2_5', 'motif_Train1_4', 'motif_Train6_4', 'motif_Train3_4', 'motif_Train7_4', 'motif_Train4_5', 'motif_10_5', 'motif_Train8_4']]
-</code></pre>
+[</code></pre>
 	   
 
 ##Run MotifSetReduce.pl to generate consensus motifs 
