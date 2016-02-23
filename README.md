@@ -36,7 +36,7 @@ $cut -f 1,2 tomtom.txt > raw_edgelist
 </code></pre>
 Since we want to construct graph for these motifs, we extracted the first two columns and append them to a new file [raw_edgelist](https://github.com/xianyao710/YRB_Capstone/blob/master/results/raw_edgelist).
 ##Using python package networkx to cluster motifs
-Here we ultilize the well developed python package [networkx](http://networkx.github.io) to analyze our motifs.Input is the raw_adjlist file from last step.After running the commands below, we generated a new graph containing 8 connected components that represent 8 motif clusters<br/>. Using [raw_edgelist](https://github.com/xianyao710/YRB_Capstone/blob/master/results/raw_edgelist) as input, we produce a subgraph that contains 8 clusters.([8_clusters.txt](https://github.com/xianyao710/YRB_Capstone/blob/master/results/8_clusters.txt),picture for this subgraph [8_clusters.png](https://github.com/xianyao710/YRB_Capstone/blob/master/results/8_clusters.png)) 
+Here we ultilize the well developed python package [networkx](http://networkx.github.io) to analyze our motifs.Input is the raw_adjlist file from last step.After running the commands below, we generated a new graph containing 8 connected components that represent 8 motif clusters<br/>. Using [raw_edgelist](https://github.com/xianyao710/YRB_Capstone/blob/master/results/raw_edgelist) as input, we produce a subgraph that contains [8_cluster](https://github.com/xianyao710/YRB_Capstone/blob/master/results/8_cluster).([8_clusters_adjlist](https://github.com/xianyao710/YRB_Capstone/blob/master/results/8_clusters_adjlist),picture for this subgraph [8_clusters.png](https://github.com/xianyao710/YRB_Capstone/blob/master/results/8_clusters.png)) 
 <pre><code>
 $python
 >>>import networkx as nx
@@ -69,7 +69,7 @@ $python
 ...		output = nx.union(output,each)
 >>>nx.draw(out)
 >>>plt.show()
->>>nx.write_adjlist(output,"8_clusters.txt")
+>>>nx.write_adjlist(output,"8_clusters_adjlist")
 >>>nodes=[]#the list of nodes for these 8 clusters 
 >>>for each in cluster:
 ...		nodes.append(each.nodes())
