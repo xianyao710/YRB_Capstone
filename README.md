@@ -75,7 +75,7 @@ $python
 ...		nodes.append(each.nodes())
 >>>nodes
 [['motif_Train8_9', 'motif_Train1_10', 'motif_Train4_16', 'motif_Train9_12', 'motif_Train6_17', 'motif_Train3_12', 'motif_Train7_6', 'motif_10_14', 'motif_Train2_13', 'motif_Train5_11'], ['motif_Train9_8', 'motif_Train2_6', 'motif_Train5_8', 'motif_Train1_6', 'motif_Train3_6', 'motif_10_8', 'motif_Train7_5', 'motif_Train4_7', 'motif_Train6_7', 'motif_Train8_7'], ['motif_Train4_11', 'motif_Train1_11', 'motif_Train9_10', 'motif_Train7_10', 'motif_Train6_11', 'motif_Train3_11', 'motif_10_11', 'motif_Train8_10', 'motif_Train5_10', 'motif_Train2_10'], ['motif_Train7_24', 'motif_10_25', 'motif_Train1_19', 'motif_Train5_21', 'motif_Train6_26', 'motif_Train4_22', 'motif_Train8_23', 'motif_Train9_20', 'motif_Train3_18'], ['motif_Train9_2', 'motif_Train5_2', 'motif_Train6_2', 'motif_Train1_2', 'motif_Train2_2', 'motif_Train7_2', 'motif_Train3_2', 'motif_Train8_1', 'motif_10_2', 'motif_Train4_2'], ['motif_Train9_3', 'motif_Train5_3', 'motif_Train6_3', 'motif_Train1_3', 'motif_Train2_3', 'motif_Train7_3', 'motif_Train8_3', 'motif_Train4_3', 'motif_10_3'], ['motif_Train9_1', 'motif_Train5_1', 'motif_Train1_1', 'motif_Train6_1', 'motif_Train2_1', 'motif_Train7_1', 'motif_Train3_1', 'motif_Train8_2', 'motif_Train4_1', 'motif_10_1'], ['motif_Train5_4', 'motif_Train9_5', 'motif_Train2_5', 'motif_Train1_4', 'motif_Train6_4', 'motif_Train3_4', 'motif_Train7_4', 'motif_Train4_5', 'motif_10_5', 'motif_Train8_4']]
-[</code></pre>
+</code></pre>
 	   
 
 ##Run MotifSetReduce.pl to generate consensus motifs 
