@@ -14,7 +14,7 @@ Here we present our workflow to generate consensus motifs from motif pairwise co
                 || <br/>
                 || Run [MotifSetReduce.pl](https://github.com/BrendelGroup/bghandbook/blob/master/demo/MotifSetReduce/MotifSetReduce.pl) <br/>
                 || <br/>
-        generate [consensus motif](https://github.com/xianyao710/YRB_Capstone/tree/master/results) for each group (VB_group[1-8].txt)<br/>
+        generate [consensus motif](https://github.com/xianyao710/YRB_Capstone/tree/master/results) for each group (VB_group[1-8].txt,seqLogo for each group[1-8].png)<br/>
 
 ##Tomtom results
 Tomtom is the software package included in MEME suite to do comparsion of motifs against known motif databases or motifs provided by users. Some lines of the this file [tomtom.txt](https://github.com/xianyao710/YRB_Capstone/blob/master/data/tomtom.txt) are shown below.<br/>
