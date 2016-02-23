@@ -2,6 +2,10 @@
 Here we present our workflow to generate consensus motifs from motif pairwise comparison results done by Tomtom.
 
 ##Work flow
+[10 training groups](https://github.com/xianyao710/YRB_Capstone/blob/master/data/Train_motifs_combined.meme)  of motifs in MEME format<br/>
+				||<br/>
+				||run [Tomtom](http://meme-suite.org/tools/tomtom),compare motifs against themselves<br/>
+				||<br/>
 [Tomtom results](https://github.com/xianyao710/YRB_Capstone/blob/master/data/tomtom.txt)(extract pair-wise comparison of motifs) <br/>
                 ||<br/>
                 || graphic analysis and cluster motifs by degree <br/>
@@ -34,36 +38,43 @@ Since we want to construct graph for these motifs, we extracted the first two co
 ##Using python package networkx to cluster motifs
 Here we ultilize the well developed python package [networkx](http://networkx.github.io) to analyze our motifs.Input is the raw_adjlist file from last step.After running the commands below, we generated a new graph containing 8 connected components that represent 8 motif clusters<br/>. 
 <pre><code>
-	$python<br/>
-	>>>import networkx as nx<br/>
-	>>>G=nx.read_adjlist("raw_adjlist",nodetype=str)
-	>>>len(G.nodes())<br/>
-	>>>228<br/>
-	>>>len(G.edges())<br/>
-	>>>647 #number of initial edges <br/>
-	>>>for node in G.nodes():<br/>
-	...		if nx.degree(G,node)<=9:<br/>
-	...  				G.remove_node(node)<br/>
-	>>>for node in G.nodes():<br/>
-	...			G.remove_edge(node,node)<br/>
-	>>>len(G.nodes())<br/>
-	>>>44<br/>
-	>>>len(G.edges())<br/>
-	>>>176<br/>
-	>>>nx.write_adjlist(G,"motif_cluster")
-</code></pre>
-The output file is [motif_cluster](https://github.com/xianyao710/YRB_Capstone/blob/master/results/motif_cluster) in adjcent list format.
-<pre><code>
-motif_Train5_8 motif_Train9_8 motif_Train2_6 motif_Train1_6 motif_Train3_6 motif_10_8 motif_Train7_5 motif_Train4_7 motif_Train6_7 motif_Train8_7
-motif_Train8_10 motif_Train4_11 motif_Train1_11 motif_Train9_10 motif_Train7_10 motif_Train3_11 motif_10_11 motif_Train5_10 motif_Train2_10
-motif_Train8_1 motif_Train9_2 motif_Train5_2 motif_Train6_2 motif_Train1_2 motif_Train3_2
-motif_Train8_3 motif_Train9_3 motif_Train5_3 motif_Train6_3 motif_Train1_3 motif_Train2_3 motif_Train7_3 motif_Train4_3 motif_10_3
-motif_Train8_2 motif_Train9_1 motif_Train5_1 motif_Train1_1 motif_Train6_1 motif_Train2_1 motif_Train7_1 motif_Train3_1 motif_Train4_1 motif_10_1
-motif_Train8_7 motif_Train9_8 motif_Train2_6 motif_Train1_6 motif_Train3_6 motif_10_8 motif_Train7_5 motif_Train4_7 motif_Train6_7
-motif_Train9_2 motif_Train5_2 motif_Train6_2 motif_Train1_2 motif_Train3_2
-motif_Train9_3 motif_Train5_3 motif_Train6_3 motif_Train1_3 motif_Train2_3 motif_Train7_3 motif_Train4_3 motif_10_3
-motif_Train9_8 motif_Train2_6 motif_Train1_6 motif_Train3_6 motif_10_8 motif_Train7_5 motif_Train4_7 motif_Train6_7
-motif_Train1_2 motif_Train5_2 motif_Train6_2 motif_Train3_2
+$python
+>>>import networkx as nx
+>>>import matplotlib.pyplot as plt#this package is needed for drawing
+>>>G=nx.read_edgelist("raw_adjlist",nodetype=str)
+>>>len(G.nodes())
+228
+>>>len(G.edges())
+>>>647 #number of initial edges
+>>> for node in G.nodes():#remove line that ends where it starts
+...		if (node,node) in G.edges():
+...     	G.remove_edge(node,node)
+>>> len(G.nodes())
+228
+>>> len(G.edges())
+419
+>>> nx.number_connected_components(G)
+82
+>>> [len(c) for c in sorted(nx.connected_components(G),key =len)]
+[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 7, 8, 9, 9, 10, 10, 10, 10, 10, 10]   
+>>>graphs = list(nx.connected_component_subgraphs(G))
+>>>cluster = []
+>>>for each in graphs:
+...		if len(each)>=9:
+...			cluster.append(each)
+>>>len(cluster)
+8
+>>>output=nx.Graph()#create a empty graph for output
+>>>for each in cluster:
+...		output = nx.union(output,each)
+>>>nx.draw(out)
+>>>plt.show()
+>>>nx.write_adjlist(output,"8_clusters.txt")
+>>>nodes=[]#the list of nodes for these 8 clusters 
+>>>for each in cluster:
+...		nodes.append(each.nodes())
+>>>nodes
+[['motif_Train8_9', 'motif_Train1_10', 'motif_Train4_16', 'motif_Train9_12', 'motif_Train6_17', 'motif_Train3_12', 'motif_Train7_6', 'motif_10_14', 'motif_Train2_13', 'motif_Train5_11'], ['motif_Train9_8', 'motif_Train2_6', 'motif_Train5_8', 'motif_Train1_6', 'motif_Train3_6', 'motif_10_8', 'motif_Train7_5', 'motif_Train4_7', 'motif_Train6_7', 'motif_Train8_7'], ['motif_Train4_11', 'motif_Train1_11', 'motif_Train9_10', 'motif_Train7_10', 'motif_Train6_11', 'motif_Train3_11', 'motif_10_11', 'motif_Train8_10', 'motif_Train5_10', 'motif_Train2_10'], ['motif_Train7_24', 'motif_10_25', 'motif_Train1_19', 'motif_Train5_21', 'motif_Train6_26', 'motif_Train4_22', 'motif_Train8_23', 'motif_Train9_20', 'motif_Train3_18'], ['motif_Train9_2', 'motif_Train5_2', 'motif_Train6_2', 'motif_Train1_2', 'motif_Train2_2', 'motif_Train7_2', 'motif_Train3_2', 'motif_Train8_1', 'motif_10_2', 'motif_Train4_2'], ['motif_Train9_3', 'motif_Train5_3', 'motif_Train6_3', 'motif_Train1_3', 'motif_Train2_3', 'motif_Train7_3', 'motif_Train8_3', 'motif_Train4_3', 'motif_10_3'], ['motif_Train9_1', 'motif_Train5_1', 'motif_Train1_1', 'motif_Train6_1', 'motif_Train2_1', 'motif_Train7_1', 'motif_Train3_1', 'motif_Train8_2', 'motif_Train4_1', 'motif_10_1'], ['motif_Train5_4', 'motif_Train9_5', 'motif_Train2_5', 'motif_Train1_4', 'motif_Train6_4', 'motif_Train3_4', 'motif_Train7_4', 'motif_Train4_5', 'motif_10_5', 'motif_Train8_4']]
 </code></pre>
 	   
 
