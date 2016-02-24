@@ -2,7 +2,10 @@
 Here we present our workflow to generate consensus motifs from motif pairwise comparison results done by Tomtom.
 
 ##Work flow
-[10 training groups](https://github.com/xianyao710/YRB_Capstone/blob/master/data/Train_motifs_combined.meme)  of motifs in MEME format<br/>
+[raw Homer output](https://github.com/xianyao710/YRB_Capstone/blob/master/data/Train_motifs_all.txt)<br/>
+||<br/> [R script](https://gist.github.com/rtraborn/e395776b965398c54c4d#file-motif2meme-r) convert to MEME format<br/>
+||<br/>
+||[10 training groups](https://github.com/xianyao710/YRB_Capstone/blob/master/data/Train_motifs_combined.meme)  of motifs in MEME format<br/>
 				||<br/>
 				||run [Tomtom](http://meme-suite.org/tools/tomtom),compare motifs against themselves<br/>
 				||<br/>
@@ -15,9 +18,86 @@ Here we present our workflow to generate consensus motifs from motif pairwise co
                 || Run [MotifSetReduce.pl](https://github.com/BrendelGroup/bghandbook/blob/master/demo/MotifSetReduce/MotifSetReduce.pl) <br/>
                 || <br/>
         generate [consensus motif](https://github.com/xianyao710/YRB_Capstone/tree/master/results) for each group (VB_group[1-8].txt,seqLogo for each group[1-8].png)<br/>
+        
+##Convert Homer result to MEME format
+
+<pre><code>
+some lines of Homer result
+>VTATAAAARNNN	1-VTATAAAARNNN	8.274038	-655.070354	0	T:1116.0(7.30%),B:329.9(1.00%),P:1e-284	Tpos:25.7,Tstd:9.3,Bpos:51.7,Bstd:27.2,StrandBias:10.0,Multiplicity:1.00
+0.333	0.302	0.311	0.054
+0.001	0.001	0.001	0.997
+0.965	0.001	0.001	0.033
+0.003	0.001	0.001	0.995
+0.995	0.001	0.001	0.003
+0.624	0.001	0.001	0.374
+0.997	0.001	0.001	0.001
+0.590	0.001	0.186	0.223
+0.371	0.122	0.347	0.160
+0.240	0.290	0.290	0.181
+0.268	0.279	0.277	0.175
+0.281	0.260	0.277	0.182
+>NNKCAGTYDN	1-NNKCAGTYDN	5.053783	-652.158774	0	T:5657.0(36.99%),B:6968.1(21.22%),P:1e-283	Tpos:51.8,Tstd:20.1,Bpos:50.6,Bstd:35.5,StrandBias:10.0,Multiplicity:1.18
+0.245	0.261	0.226	0.268
+0.288	0.199	0.281	0.232
+0.192	0.162	0.284	0.361
+0.001	0.997	0.001	0.001
+0.976	0.001	0.001	0.022
+0.001	0.001	0.826	0.172
+0.398	0.001	0.001	0.600
+0.267	0.434	0.001	0.298
+0.257	0.155	0.332	0.255
+0.266	0.227	0.259	0.248
+
+Then in R
+>source("https://github.com/xianyao710/YRB_Capstone/blob/master/scripts/motif2meme.R")
+>motif2meme("I692/YRB_Capstone/data/Train_motifs_all.txt")
+We generate the motif file in MEME format, and few head lines are shown here<br/>
+MEME version 4
+
+ALPHABET= ACGT
+
+strands: + -
+
+MOTIF motif_Train1_1 1-VTATAAAARNNN 
+letter-probability matrix: alength= 4 w= 12 nsites= 20 E= 1e-284 
+0.333	0.302	0.311	0.054
+0.001	0.001	0.001	0.997
+0.965	0.001	0.001	0.033
+0.003	0.001	0.001	0.995
+0.995	0.001	0.001	0.003
+0.624	0.001	0.001	0.374
+0.997	0.001	0.001	0.001
+0.59	0.001	0.186	0.223
+0.371	0.122	0.347	0.16
+0.24	0.29	0.29	0.181
+0.268	0.279	0.277	0.175
+0.281	0.26	0.277	0.182
+
+MOTIF motif_Train1_2 1-NNKCAGTYDN 
+letter-probability matrix: alength= 4 w= 10 nsites= 20 E= 1e-283 
+0.245	0.261	0.226	0.268
+0.288	0.199	0.281	0.232
+0.192	0.162	0.284	0.361
+0.001	0.997	0.001	0.001
+0.976	0.001	0.001	0.022
+0.001	0.001	0.826	0.172
+0.398	0.001	0.001	0.6
+0.267	0.434	0.001	0.298
+0.257	0.155	0.332	0.255
+0.266	0.227	0.259	0.248
+
+
+
+</code></pre>
 
 ##Tomtom results
-Tomtom is the software package included in MEME suite to do comparsion of motifs against known motif databases or motifs provided by users. Some lines of the this file [tomtom.txt](https://github.com/xianyao710/YRB_Capstone/blob/master/data/tomtom.txt) are shown below.<br/>
+Tomtom is the software package included in MEME suite to do comparsion of motifs against known motif databases or motifs provided by users. Here, we use [HomerResultinMEME format](https://github.com/xianyao710/YRB_Capstone/blob/master/data/Train_motifs_combined.meme) motifs as query and target to do comparison against themselves.You can use the webbased Tomtom tool or run the command line version of Tomtom.<br/>
+<pre><code>
+$tomtom Train_motifs_combined.meme (as query)Train_motifs_combined.meme(as target)
+</code></pre>
+And a directroy named tomtom_out will be produced with output in all format here.We will just use tomtom.txt,the plain text format. Some lines of the result file [tomtom.txt](https://github.com/xianyao710/YRB_Capstone/blob/master/data/tomtom.txt) are shown below.<br/>
+
+
 <pre><code/>
 #Query ID	Target ID	Optimal offset	p-value	E-value	q-value	Overlap	Query consensus	Target consensus	Orientation
 motif_Train1_1	motif_Train1_1	0	5.84779e-25	1.3333e-22	2.62122e-22	12	ATATAAAAAGCA	ATATAAAAAGCA	+
