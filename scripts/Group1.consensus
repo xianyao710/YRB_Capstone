@@ -1,0 +1,13 @@
+Now running MotifSetReduce.pl with arguments -m Group1 -l 5 -t 0.09 -c 0.5 ...
+
+
+
+Consensus motifs at merging threshold 0.09:
+
+DE	motif_10_18mmmmmt (5 positions) IC=  4.374
+0.837	0.051	0.064	0.048	A	1.102
+0.178	0.687	0.068	0.068	C	0.658
+0.055	0.143	0.736	0.066	G	0.785
+0.120	0.050	0.096	0.735	T	0.768
+0.061	0.060	0.827	0.051	G	1.061
+XX
