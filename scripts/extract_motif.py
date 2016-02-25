@@ -44,7 +44,7 @@ if __name__ == "__main__":
 				tmp = line.strip()
 				tab = tmp[1:-1].split(',')#the list of motif names for each group
 				with open(output,'w') as ofile:
-					ofile.write('MEME version4\n'+"ALPHABET= ACGT\n\n")
+					ofile.write('MEME version 4\n'+"ALPHABET= ACGT\n\n")
 					for each in tab:# the motif name in each group
 						content = motif_list[each]
 						ofike.write(content)
@@ -53,7 +53,7 @@ if __name__ == "__main__":
 			threshold = float(args.motif_threshold)
 			out = args.motif_MEME+'.threshold'
 			with open(out,'w') as ofile:
-				ofile.write('MEME version4\n'+'ALPHABET= ACGT\n\n')
+				ofile.write('MEME version 4\n'+'ALPHABET= ACGT\n\n')
 				for each in motif_list.keys():
 					content = motif_list[each]
 					if check_threshold(content,threshold):
