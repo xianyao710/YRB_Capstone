@@ -1,5 +1,8 @@
-MEME version4
+MEME version 4
+
 ALPHABET= ACGT
+
+strands: + -
 
 MOTIF motif_Train7_4 7-AGATGGCKGY 
 letter-probability matrix: alength= 4 w= 10 nsites= 20 E= 1e-104 
