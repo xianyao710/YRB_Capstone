@@ -147,7 +147,7 @@ $python
 >>>output=nx.Graph()#create a empty graph for output
 >>>for each in cluster:
 ...		output = nx.union(output,each)
->>>nx.draw(out)
+>>>nx.draw(output)
 >>>plt.show()
 >>>nx.write_adjlist(output,"8_clusters_adjlist")
 >>>nodes=[]#the list of nodes for these 8 clusters 

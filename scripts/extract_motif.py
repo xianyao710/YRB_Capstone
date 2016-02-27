@@ -47,7 +47,7 @@ if __name__ == "__main__":
 					ofile.write('MEME version 4\n'+"ALPHABET= ACGT\n\n")
 					for each in tab:# the motif name in each group
 						content = motif_list[each]
-						ofike.write(content)
+						ofile.write(content)
 	else:#extract motifs according to threshold
 		if args.motif_threshold:
 			threshold = float(args.motif_threshold)
