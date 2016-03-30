@@ -4,6 +4,7 @@ Here we present our workflow to generate consensus motifs from motif pairwise co
 ##Work flow
 ![Workflow](https://github.com/xianyao710/YRB_Capstone/blob/master/I692Workflow.png?raw=true)
 
+###Sample case 
 [raw Homer output](https://github.com/xianyao710/YRB_Capstone/blob/master/data/Train_motifs_all.txt)<br/>
 ||<br/> [R script](https://gist.github.com/rtraborn/e395776b965398c54c4d#file-motif2meme-r) convert to MEME format<br/>
 ||<br/>
