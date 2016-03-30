@@ -2,6 +2,7 @@
 Here we present our workflow to generate consensus motifs from motif pairwise comparison results done by Tomtom.
 
 ##Work flow
+
 [raw Homer output](https://github.com/xianyao710/YRB_Capstone/blob/master/data/Train_motifs_all.txt)<br/>
 ||<br/> [R script](https://gist.github.com/rtraborn/e395776b965398c54c4d#file-motif2meme-r) convert to MEME format<br/>
 ||<br/>
