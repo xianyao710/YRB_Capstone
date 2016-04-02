@@ -33,6 +33,17 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 
 	motif_list = ParseMEME(args.motif_MEME)
+
+
+	#extract motifs according to threshold
+	if args.motif_threshold:
+		threshold = float(args.motif_threshold)	
+		for key in motif_list.keys():
+			content = motif_list[key]
+			if not check_threshold(content,threshold):
+                                del motif_list[key]				
+
+
 	if args.motif_name:#extract motifs according to motif names in motif_name file
 		with open(args.motif_name,'r') as fileName:
 			i = 0
@@ -48,17 +59,6 @@ if __name__ == "__main__":
 					for each in tab:# the motif name in each group
 						content = motif_list[each]
 						ofile.write(content)
-	else:#extract motifs according to threshold
-		if args.motif_threshold:
-			threshold = float(args.motif_threshold)
-			out = args.motif_MEME+'.threshold'
-			with open(out,'w') as ofile:
-				ofile.write('MEME version 4\n'+'ALPHABET= ACGT\n\n')
-				for each in motif_list.keys():
-					content = motif_list[each]
-					if check_threshold(content,threshold):
-						ofile.write(content)
-
 
 			
 		

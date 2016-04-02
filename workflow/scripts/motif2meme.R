@@ -1,9 +1,9 @@
+#!/usr/bin/Rscript
 #converts a Homer .motif PWM/PFM into MEME format
-motif2meme <- function(inFile) {
+motif2meme <- function(inFile,outFile) {
     library(tools)
     #establishing the number of distinct motifs in the file and parsing it accordingly
     stopifnot(is.character(inFile))
-    outFile <- paste(inFile,"meme",sep=".")
     thisFile <- file(outFile)
     fileName <- file_path_sans_ext(inFile)
     #reading the input file
@@ -84,5 +84,14 @@ motif2meme <- function(inFile) {
    print("matrix has been converted to MEME")
 }
 
+#parse command line argument and run this function
 
+args = commandArgs(trailingOnly = TRUE)
+if (length(args)!=2){
+	stop("Wrong input",call. = TRUE)
+}else{
+	inFile=args[1]
+	outFile=args[2]
+}
 
+motif2meme(inFile,outFile)

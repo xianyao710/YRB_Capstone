@@ -5,7 +5,7 @@
 	tomtom --version
 } || {
 	echo "tomtom is not installed or not added to enviromental path"
-	exit 
+	exit 1 
 }
 
 {
@@ -13,5 +13,5 @@
 	echo "The required package networkx is installed"
 } || {
 	echo "Required python package networkx is not installed properply "
-	exit 
+	exit 1
 }

@@ -11,7 +11,7 @@ if __name__ == "__main__":
 	parser.add_argument('-t','--threshold',default= 9)
 	args = parser.parse_args()
 
-	G=nx.read_edglist(args.edgelist,nodetype=str)
+	G=nx.read_edgelist(args.edgelist,nodetype=str)
 	for node in G.nodes():
 		if (node,node) in G.edges():
 			G.remove_edge(node,node)
@@ -21,7 +21,7 @@ if __name__ == "__main__":
 	for each in graphs:
 		if len(each)>= args.threshold:
 			cluster.append(each)
-	
+	print("There are %d clusters identified\n" %(len(cluster)))	
 	output = nx.Graph()
 	for each in cluster:
 		output = nx.union(output,each)
@@ -29,5 +29,5 @@ if __name__ == "__main__":
 	plt.savefig('../results/output.png')
 	with open(args.cluster_set,'w') as fout:
 		for each in cluster:
-			fout.write(each)
+			fout.write(str(each.nodes())+"\n")
 	
