@@ -26,3 +26,8 @@ We performed our workflow with adjustment of parameters and we got 8 motifs toge
 Test set data and validation?
 
 
+Week 20/04 - 22/04
+Literature review and pick data for testing of workflow
+Keep writing the manuscript everyday and modify the background section.
+
+
