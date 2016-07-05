@@ -1,8 +1,7 @@
 #workflow.sh incorporates all the scripts in our workflow 
 ################################
 #input is a homer motif file   #
-#prompt for threshold input    #
-#all results in ../results     #
+#    			       #
 ################################ 
 #!/bin/bash
 set -e
@@ -37,7 +36,7 @@ cd $WD
 
 #process the raw_homer motif to meme format
 raw_meme=$raw_homer".meme"
-Rscript motif2meme.R $raw_homer $raw_meme
+Rscript $DIR"/motif2meme.R" $raw_homer $raw_meme
 if [ $? -eq 0 ]
 then 
 	echo "Format transformation succeed"
@@ -55,7 +54,9 @@ else
 	tomtom -thresh $evalue -evalue $raw_meme $raw_meme
 fi
 
-mkdir Network
+if [! -d "Network"];then
+	mkdir Network
+fi
 #extract motif id and output raw_edgelist file
 cut -f 1,2 tomtom_out/tomtom.txt > raw_edgelist
 mv raw_edgelist ./Network
@@ -65,14 +66,23 @@ echo -n "Enter your minimal number of node that should be contained in motif sub
 read degree
 if [ $degree -eq 0 ];
 then
-	python GetCluster.py -i raw_edgelist 	
+	python $DIR"/GetCluster.py" -i raw_edgelist 	
 else
-	python GetCluster.py -i raw_edgelist -t $degree
+	python $DIR"/GetCluster.py" -i raw_edgelist -t $degree
 fi
-
-mkdir Nodes
+if [! [-d "Nodes"]];then
+	mkdir Nodes
+fi
+if ls cluster*.txt 1> /dev/null 2>&1; then
+	echo "there are clusters extracted"
+else
+	echo "No clusters extracted, program halted"
+fi
+exit
 mv cluster*.txt Nodes/
-mkdir Cluster_meme
+if [! [-d "Cluster_meme"]];then
+	mkdir Cluster_meme
+fi
 #generate motif group files in meme format
 cd Nodes
 for file in cluster*.txt;do python $DIR"/extract_motif.py" -i $raw_meme -n $file -o "../Cluster_meme"$file".meme";done 
@@ -81,7 +91,9 @@ for file in cluster*.txt;do python $DIR"/extract_motif.py" -i $raw_meme -n $file
 
 #generate consensus motif for each group
 cd ../Cluster_meme
+if [! [-d "../Cluster_meme"]];then
 mkdir ../Cluster_consensus
+fi
 for file in *.meme;do perl $DIR"/MotifSetReduce.pl" -m $file > "../Cluster_meme"${file/meme/consensus}; done
 
 cd ..
