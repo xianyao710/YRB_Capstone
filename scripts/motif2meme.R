@@ -88,7 +88,7 @@ motif2meme <- function(inFile,outFile) {
 
 args = commandArgs(trailingOnly = TRUE)
 if (length(args)!=2){
-	stop("Wrong input",call. = TRUE)
+	stop("Need input and output file name, homer ===> meme\n",call. = TRUE)
 }else{
 	inFile=args[1]
 	outFile=args[2]

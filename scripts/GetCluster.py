@@ -7,11 +7,11 @@ import argparse
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-i','--edgelist',required=True)
-	parser.add_argument('-e','--cluster_set',required=True)
 	parser.add_argument('-t','--threshold',default= 9)
 	args = parser.parse_args()
 
 	G=nx.read_edgelist(args.edgelist,nodetype=str)
+	#remove the edge like (A,A),(B,B)
 	for node in G.nodes():
 		if (node,node) in G.edges():
 			G.remove_edge(node,node)
@@ -26,8 +26,16 @@ if __name__ == "__main__":
 	for each in cluster:
 		output = nx.union(output,each)
 	nx.draw(output)
-	plt.savefig('../results/output.png')
-	with open(args.cluster_set,'w') as fout:
-		for each in cluster:
-			fout.write(str(each.nodes())+"\n")
+	plt.savefig('extract_clusters.png')
 	
+	#output the files which contain nodes id in each extracted cluster
+	nodes=[]
+	for each in cluster:
+		nodes.append(each.nodes())
+	for i in range(len(nodes)):
+		tmp="cluster"+str(i+1)+".txt"		#tmp is the cluster id
+		with open(tmp,"w") as fp:
+			fp.write(str(nodes[i]))
+		fp.close()
+
+		

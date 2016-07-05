@@ -28,7 +28,7 @@ def check_threshold(motif,threshold):
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-i','--motif_MEME',required=True)
-	parser.add_argument('-e','--motif_name')
+	parser.add_argument('-n','--motif_name')
 	parser.add_argument('-t','--motif_threshold')
 	parser.add_argument('-o','--out_file',required=True)
 	args = parser.parse_args()
