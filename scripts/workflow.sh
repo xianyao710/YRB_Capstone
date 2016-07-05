@@ -55,10 +55,11 @@ else
 	tomtom -thresh $evalue -evalue $raw_meme $raw_meme
 fi
 
-
+mkdir Network
 #extract motif id and output raw_edgelist file
 cut -f 1,2 tomtom_out/tomtom.txt > raw_edgelist
-
+mv raw_edgelist ./Network
+cd Network
 #extract motif clusters in graph
 echo -n "Enter your minimal number of node that should be contained in motif subgraph, or enter 0 using default 9>"
 read degree
@@ -69,13 +70,20 @@ else
 	python GetCluster.py -i raw_edgelist -t $degree
 fi
 
+mkdir Nodes
+mv cluster*.txt Nodes/
+mkdir Cluster_meme
 #generate motif group files in meme format
-for file in cluster*;do python $DIR"/extract_motif.py" -i $raw_meme -n $file -o $file".meme";done 
+cd Nodes
+for file in cluster*.txt;do python $DIR"/extract_motif.py" -i $raw_meme -n $file -o "../Cluster_meme"$file".meme";done 
 
-mkdir motif_group
-mv Group* motif_group
+
 
 #generate consensus motif for each group
-for file in motif_group/Group* ;do ./MotifSetReduce.pl -m $file > $file".consensus"; done
+cd ../Cluster_meme
+mkdir ../Cluster_consensus
+for file in *.meme;do perl $DIR"/MotifSetReduce.pl" -m $file > "../Cluster_meme"${file/meme/consensus}; done
 
+cd ..
+echo "Job completed"
 
