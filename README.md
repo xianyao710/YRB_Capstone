@@ -2,9 +2,9 @@
 Here we present our workflow to generate consensus motifs from motif pairwise comparison results done by Tomtom.
 
 ##Work flow
-![Workflow](https://github.com/xianyao710/YRB_Capstone/blob/master/I692Workflow.png?raw=true)
+![Workflow](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/I692Workflow.png?raw=true)
 
-![Diagram](https://github.com/xianyao710/YRB_Capstone/blob/master/Diagram1.png?raw=true)
+![Diagram](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/Diagram1.png?raw=true)
 
 ###Sample case 
 [raw Homer output](https://github.com/xianyao710/YRB_Capstone/blob/master/data/Train_motifs_all.txt)<br/>
