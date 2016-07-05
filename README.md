@@ -4,7 +4,7 @@ Here we present our workflow to generate consensus motifs from motif pairwise co
 ##Work flow
 ![Workflow](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/I692Workflow.png?raw=true)
 
-![Diagram](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/Diagram1.png?raw=true)
+![Diagram](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/Diagram.png?raw=true)
 
 ###Sample case 
 [raw Homer output](https://github.com/xianyao710/YRB_Capstone/blob/master/data/Train_motifs_all.txt)<br/>
