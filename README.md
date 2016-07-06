@@ -2,7 +2,7 @@
 Here we present our workflow to generate consensus motifs from motif pairwise comparison results done by Tomtom.
 
 ##Work flow
-![Workflow](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/I692Workflow.png?raw=true)
+![Workflow](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/YRB_workflow.png?raw=true)
 
 ![Diagram](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/Diagram.png?raw=true)
 
