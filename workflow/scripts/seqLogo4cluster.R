@@ -19,6 +19,7 @@ outdir=args[2]
 #png(filename=outFile)
 
 all_dat<-readLines(fin)
+#all_dat
 count<-0
 flag<-FALSE
 for (i in 1:length(all_dat)){
@@ -26,17 +27,17 @@ for (i in 1:length(all_dat)){
 		DF<-NULL
 		tmp<-""
 		count<-count+1
-		fout<-paste(fin,"_",as.character(count))
+		fout<-paste(fin,"_",as.character(count),".png",sep="")
 		flag<-TRUE
-		}
-	if(flag){	
-		tmp<-paste(tmp,all_dat[i],"\n",sep="")
+		next
 		}
 	if(grepl("XX",all_dat[i])){
 		con<-textConnection(tmp)
 		DF<-read.delim(con,header=FALSE)
 		close(con)
 		DF<-data.frame(DF)
+		data.frame(lapply(DF,as.numeric))
+	#	print(DF)
 		A<-DF$V1
 		C<-DF$V2
 		G<-DF$V3
@@ -50,5 +51,8 @@ for (i in 1:length(all_dat)){
 		dev.off()
 		flag<-FALSE
 	}
+	if(flag){
+                tmp<-paste(tmp,all_dat[i],"\n",sep="")
+                }
 }
 
