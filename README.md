@@ -1,5 +1,5 @@
-#Identify consensus motifs from Tomtom results
-Here we present our workflow to generate consensus motifs from motif pairwise comparison results done by Tomtom.
+#Statistics cross-validation of de novo motif finding combinds graphical clustering
+Here we give a simple illustration of how our workflow works to reduce redundancy in de novo motif finding.
 
 ##Work flow
 ![Workflow](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/YRB_workflow.png?raw=true)

@@ -1,0 +1,4 @@
+#Query ID	Target ID	Optimal offset	p-value	E-value	q-value	Overlap	Query consensus	Target consensus	Orientation
+motif_train10_28	MA0516.1	0	1.13875e-08	1.23213e-05	1.82573e-05	12	GCCCCGCCCCGA	GCCCCGCCCCCTCCC	+
+motif_train10_28	MA0079.3	0	1.73001e-08	1.87187e-05	1.82573e-05	11	GCCCCGCCCCGA	GCCCCGCCCCC	+
+motif_train10_15	MA0527.1	0	2.81326e-08	3.04395e-05	6.08456e-05	10	CTCTCGCGAG	CTCTCGCGAGATCTG	+
