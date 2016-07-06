@@ -1,4 +1,5 @@
-
+bin folder contains the basic tools that are needed to conduct our workflow
+-----------------------------------------------------------------------------
 This workflow aims to retrieve non-redundant motifs from HOMER motif input.
 -----------------------------------------------------------------------------
 MEME suite is required to be installed, and the enviromental path for program `tomtom` should be added to ~/.bash_profile.

@@ -1,4 +1,6 @@
 
+scripts folder may contain some new program that can be probably added to bin
+-----------------------------------------------------------------------------
 This workflow aims to retrieve non-redundant motifs from HOMER motif input.
 -----------------------------------------------------------------------------
 MEME suite is required to be installed, and the enviromental path for program `tomtom` should be added to ~/.bash_profile.
