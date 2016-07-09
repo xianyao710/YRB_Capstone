@@ -11,7 +11,7 @@ For example, CAGE(cap analysis of gene expresion) experiment is conducted for re
 After having tens of thousands of reads from ROI, statistics cross-validation should be done for further analysis. For example, as for 10-fold cross-validation, we neend to randomly split all the reads into 10 groups of equal size (equal number of reads). For each round of validation, 9 groups work as training set and the remainder works as test set. This process is iterated 10 times, so that each group would work as test set once and part of training sets 9 times. After finishing this process, the biological pattern (such as DNA motif in our case study) observed from 10 training sets should also be observed in 10 test sets. And those result which are only observed few times in training sets should be discarded, because they lack statistical significance.
 ![Diagram](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/Diagram.png?raw=true)
 
-##Sample case 
+##Part 2 Sample case 
 ### Step 1: Retrieve promoter region
 Here we retrieved a CAGE data set from ENCODE human A549 experiment
 (ENCODE Experiment Matrix, Cell type: A549;Assays :CAGE).
