@@ -1,12 +1,31 @@
-#Statistics cross-validation of de novo motif finding combinds graphical clustering
-Here we give a simple illustration of how our workflow works to reduce redundancy in de novo motif finding.
+#Work flow 
 
-##Work flow
-![Workflow](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/YRB_workflow.png?raw=true)
+##Part 1	workflow steps
+###Step 1:Define your own region of interest (ROI)
+*Cis*-regulatory elements such as promoters, enhancer and other fragments of DNA sequence genome-wide can be potential regions of interest depending on what you look for.
 
+###Step 2: Retrieve DNA fragments from ROI
+For example, CAGE(cap analysis of gene expresion) experiment is conducted for retrieving 5' ends of mRNA, which provide us the transcription start sites (TSS) profile. By using CAGEr package, the core promoter region which flanks TSS can be extracted from reference genome.
+
+###Step 3:Statistics cross-validation
+After having tens of thousands of reads from ROI, statistics cross-validation should be done for further analysis. For example, as for 10-fold cross-validation, we neend to randomly split all the reads into 10 groups of equal size (equal number of reads). For each round of validation, 9 groups work as training set and the remainder works as test set. This process is iterated 10 times, so that each group would work as test set once and part of training sets 9 times. After finishing this process, the biological pattern (such as DNA motif in our case study) observed from 10 training sets should also be observed in 10 test sets. And those result which are only observed few times in training sets should be discarded, because they lack statistical significance.
 ![Diagram](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/Diagram.png?raw=true)
 
-###Sample case 
+##Sample case 
+### Step 1: Retrieve promoter region
+Here we retrieved a CAGE data set from ENCODE human A549 experiment
+(ENCODE Experiment Matrix, Cell type: A549;Assays :CAGE).
+We utilized CAGEr package to retrieve TSS peaks and corresponding 
+promoter region. 
+
+### Step 2: *De novo* motif finding in promoter region with 10-fold cross-validation
+TSS peak files were splitted into 10 groups of equal number of reads.
+Training sets and test sets were obtained by following step 3 introduced above. We used HOMER programs findMotifsGenome.pl to predict DNA motifs in both training sets and test sets. The motifs that were both observed in training sets and test sets were kept for further clustering. 
+![Workflow](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/YRB_workflow.png?raw=true)
+
+### Step 3: Motif clustering and redundcany removal
+
+
 [raw Homer output](https://github.com/xianyao710/YRB_Capstone/tree/master/data/homer_motif)<br/>
 ||<br/> [R script](https://github.com/xianyao710/YRB_Capstone/blob/master/bin/motif2meme.R) convert HOMER motif to MEME motif<br/>
 ||<br/>
@@ -24,7 +43,7 @@ Here we give a simple illustration of how our workflow works to reduce redundanc
                 || <br/>
         generate [consensus motif](https://github.com/xianyao710/YRB_Capstone/tree/master/results) for each group (VB_group[1-8].txt,seqLogo for each group[1-8].png)<br/>
         
-##Convert Homer result to MEME format
+####Convert Homer result to MEME format
 
 <pre><code>
 some lines of Homer result
@@ -97,7 +116,7 @@ letter-probability matrix: alength= 4 w= 10 nsites= 20 E= 1e-283
 
 </code></pre>
 
-##Tomtom results
+####Tomtom results
 Tomtom is the software package included in MEME suite to do comparsion of motifs against known motif databases or motifs provided by users. Here, we use [HomerResultinMEME format](https://github.com/xianyao710/YRB_Capstone/blob/master/data/Train_motifs_combined.meme) motifs as query and target to do comparison against themselves.You can use the webbased Tomtom tool or run the command line version of Tomtom.<br/>
 <pre><code>
 $tomtom Train_motifs_combined.meme (as query)Train_motifs_combined.meme(as target)
@@ -122,11 +141,11 @@ motif_Train1_2	motif_Train1_2	0	2.60172e-24	5.93193e-22	1.13361e-21	10	TATCAGTCG
 $cut -f 1,2 tomtom.txt > raw_edgelist
 </code></pre>
 Since we want to construct graph for these motifs, we extracted the first two columns and append them to a new file [raw_edgelist](https://github.com/xianyao710/YRB_Capstone/blob/master/results/Cluster_result/raw_edgelist).
-##Using python package networkx to cluster motifs
+####Using python package networkx to cluster motifs
 Here we ultilize the well developed python package [NetworkX](http://networkx.github.io) to analyze our motifs. [Raw_edgelist](https://github.com/xianyao710/YRB_Capstone/blob/master/results/Cluster_result/raw_edgelist) extracted from tomtom.txt output was used as input,  The nodes of [10 clusters](https://github.com/xianyao710/YRB_Capstone/tree/master/results/Cluster_result/cluster_nodes) were retrieved for further clustering. Picture for the clusters are shown here ([clusters](https://github.com/xianyao710/YRB_Capstone/blob/master/results/Cluster_result/human_clusters.png)) 
 	   
 
-##Run MotifSetReduce.pl to generate consensus motifs 
+####Run MotifSetReduce.pl to generate consensus motifs 
 For this step, we extract the motifs for each group in MEME format ([motif in cluster](https://github.com/xianyao710/YRB_Capstone/tree/master/results/Cluster_result/cluster_motif)) and then run [MotifSetReduce.pl](https://github.com/BrendelGroup/bghandbook/tree/master/demo/MotifSetReduce) to produce consensus motifs.
 
 <pre><code>
@@ -151,7 +170,7 @@ XX
 </code></pre>
 After this step, we produce [consensus motifs](https://github.com/xianyao710/YRB_Capstone/tree/master/results/Cluster_result/cluster_consensus/raw_out) for 10 groups.Use the package [seqLogo](https://www.bioconductor.org/packages/release/bioc/html/seqLogo.html) to represent motifs([sample figure](https://github.com/xianyao710/YRB_Capstone/tree/master/results/Cluster_result/cluster_seqLogo)).
 ##Results and discussion
-After comparison with JASPAR 2016 core vertebrate database, three motifs of our result show highly identity to known *cis*-regulatory elments like SP1, NRF1 and ZBTB33 in *Homo sapiens*.
+After comparison with JASPAR 2016 core vertebrate database, three motifs of our result show highly identity to known *cis*-regulatory elments like SP1, NRF1 and ZBTB33 in *Homo sapiens*. This case study showed that cross-validation process is of great importance to filter out motifs without statistical significance during *de novo* motif finding process. Motif clustering procedures, on the other hand, can reduce the noises and provide us more important information of the consensus DNA sequence in promoter region.
 ![NRF1](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/train1_7.png?raw=true)
 
 ![SP1](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/train10_28.png?raw=true)
