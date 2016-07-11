@@ -7,7 +7,7 @@
 ###Step 2: Retrieve DNA fragments from ROI
 For example, CAGE(cap analysis of gene expresion) experiment is conducted for retrieving 5' ends of mRNA, which provide us the transcription start sites (TSS) profile. By using CAGEr package, the core promoter region which flanks TSS can be extracted from reference genome.
 
-###Step 3:Statistics cross-validation
+###Step 3:Statistics cross-validation of de novo motif discovery
 After having tens of thousands of reads from ROI, statistics cross-validation should be done for further analysis. For example, as for 10-fold cross-validation, we neend to randomly split all the reads into 10 groups of equal size (equal number of reads). For each round of validation, 9 groups work as training set and the remainder works as test set. This process is iterated 10 times, so that each group would work as test set once and part of training sets 9 times. After finishing this process, the biological patterns (such as DNA motif in our case study) which are observed from 10 training sets should also be observed in 10 test sets. And those motifs which are only observed few times in training sets should be discarded, because they lack statistical significance.
 ![Diagram](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/Diagram.png?raw=true)
 
