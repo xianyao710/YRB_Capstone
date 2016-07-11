@@ -8,6 +8,8 @@
 For example, CAGE(cap analysis of gene expresion) experiment is conducted for retrieving 5' ends of mRNA, which provide us the transcription start sites (TSS) profile. By using CAGEr package, the core promoter region which flanks TSS can be extracted from reference genome.
 
 ###Step 3:Statistics cross-validation of de novo motif discovery
+There are more than hundreds of *de novo* motif finding approaches for specific regulatoryregions across genome. However, it is still challenging to identifiy motifs in higher organisms, because motifs are short fragments allowing variations without loss of functions. So, most motifs are found as random hits thoughout the genome.
+
 After having tens of thousands of reads from ROI, statistics cross-validation should be done for further analysis. For example, as for 10-fold cross-validation, we neend to randomly split all the reads into 10 groups of equal size (equal number of reads). For each round of validation, 9 groups work as training set and the remainder works as test set. This process is iterated 10 times, so that each group would work as test set once and part of training sets 9 times. After finishing this process, the biological patterns (such as DNA motif in our case study) which are observed from 10 training sets should also be observed in 10 test sets. And those motifs which are only observed few times in training sets should be discarded, because they lack statistical significance (Click the figure below for high resolution).
 
 ![Diagram](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/Diagram.png?raw=true)
