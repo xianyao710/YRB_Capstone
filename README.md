@@ -171,6 +171,7 @@ XX
 After this step, we produce [consensus motifs](https://github.com/xianyao710/YRB_Capstone/tree/master/results/Cluster_result/cluster_consensus/raw_out) for 10 groups.Use the package [seqLogo](https://www.bioconductor.org/packages/release/bioc/html/seqLogo.html) to represent motifs([sample figure](https://github.com/xianyao710/YRB_Capstone/tree/master/results/Cluster_result/cluster_seqLogo)).
 ##Results and discussion
 After comparison with JASPAR 2016 core vertebrate database, three motifs of our result show highly identity to known *cis*-regulatory elments like SP1, NRF1 and ZBTB33 in *Homo sapiens*. This case study showed that cross-validation process is of great importance to filter out motifs without statistical significance during *de novo* motif finding process. Motif clustering procedures, on the other hand, can reduce the noises and provide us more important information of the consensus DNA sequence in promoter region.
+
 ![NRF1](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/train1_7.png?raw=true)
 
 ![SP1](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/train10_28.png?raw=true)
