@@ -18,8 +18,8 @@ Here we retrieved a CAGE data set from ENCODE human A549 experiment
 (ENCODE Experiment Matrix, Cell type: A549;Assays :CAGE).
 We utilized CAGEr package to retrieve TSS peaks and corresponding 
 promoter region. 
-![wgEncodeRikenCageA549CellPapAlnRep1.bam ](http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/wgEncodeRikenCage/wgEncodeRikenCageA549CellPapAlnRep1.bam)
-![wgEncodeRikenCageA549CellPapAlnRep2.bam](http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/wgEncodeRikenCage/wgEncodeRikenCageA549CellPapAlnRep2.bam)
+[wgEncodeRikenCageA549CellPapAlnRep1.bam ](http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/wgEncodeRikenCage/wgEncodeRikenCageA549CellPapAlnRep1.bam)
+[wgEncodeRikenCageA549CellPapAlnRep2.bam](http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/wgEncodeRikenCage/wgEncodeRikenCageA549CellPapAlnRep2.bam)
 ### Step 2: *De novo* motif finding in promoter region with 10-fold cross-validation
 TSS peak files were splitted into 10 groups of equal number of reads.
 Training sets and test sets were obtained by following step 3 introduced above. We used HOMER programs findMotifsGenome.pl to predict DNA motifs in both training sets and test sets. The motifs that were both observed in training sets and test sets were kept for further clustering. 
