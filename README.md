@@ -175,12 +175,11 @@ After this step, we produce [consensus motifs](https://github.com/xianyao710/YRB
 ##Results and discussion
 After comparison with JASPAR 2016 core vertebrate database, three motifs of our result show highly identity to known *cis*-regulatory elments like SP1, NRF1 and ZBTB33 in *Homo sapiens*. This case study showed that cross-validation process is of great importance to filter out motifs without statistical significance during *de novo* motif finding process. Motif clustering procedures, on the other hand, can reduce the noises and provide us more important information of the consensus DNA sequence in promoter region.
 
+Novel motifs which are similar to known motif "NRF1", "SP1" and "ZBTB33" repectively.
 
-Novel motif which is similar to known motif "NRF1"
 ![NRF1](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/train1_7.png?raw=true)
 
-Novel motif which is similar to known motif "SP1"
 ![SP1](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/train10_28.png?raw=true)
 
-Novel motif which is simialr to known motif "ZBTB33"
 ![ZBTB33](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/train10_15.png?raw=true)
+
