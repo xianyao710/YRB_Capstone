@@ -26,7 +26,8 @@ Training sets and test sets were obtained by following step 3 introduced above. 
 ![Workflow](https://github.com/xianyao710/YRB_Capstone/blob/master/figure/YRB_workflow.png?raw=true)
 
 ### Step 3: Motif clustering and redundcany removal
-
+This part of workflow can be finished automatically by running our workflow script.
+[workflow.sh](https://github.com/xianyao710/YRB_Capstone/blob/master/bin/workflow.sh)
 
 [raw Homer output](https://github.com/xianyao710/YRB_Capstone/tree/master/data/homer_motif)<br/>
 ||<br/> [R script](https://github.com/xianyao710/YRB_Capstone/blob/master/bin/motif2meme.R) convert HOMER motif to MEME motif<br/>
