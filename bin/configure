@@ -1,4 +1,4 @@
-#check if MEME suite is already installed and tomtom is added to enviromental path
+#check if HOMER, MEME suite is already installed and tomtom is added to enviromental path
 
 {
 	echo -n "The version of tomtom is " 
@@ -13,5 +13,14 @@
 	echo "The required package networkx is installed"
 } || {
 	echo "Required python package networkx is not installed properply "
+	exit 1
+}
+
+{
+	echo "check if HOMER is already installed and added to enviromental path"
+	findMotifsGenome.pl -h
+	annotatePeaks.pl -h
+}||{
+	echo "homer is not installed or not added to environment path"
 	exit 1
 }
