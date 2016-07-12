@@ -56,6 +56,7 @@ if __name__ == "__main__":
 				tmp = line.strip()
 				tab = tmp[1:-1].split(',')#the list of motif names for each group
 		with open(args.out_file,'w') as ofile:
+			ofile.write("MEME version 4\n"+"ALPHABET= ACGT\n\n")
 			for each in tab:
 				content = motif_list[each]
 				ofile.write(content)
