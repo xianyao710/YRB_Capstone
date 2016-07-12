@@ -1,11 +1,18 @@
-#workflow.sh incorporates all the scripts in our workflow 
-################################
-#input is a homer motif file   #
-#    			       #
-################################ 
+###############################################################################
+#  		        workflow.sh is written by                             #
+#        			 Xiangyu Yao	                              #
+#     			     xianyao@indiana.edu                              #
+#-----------------------------------------------------------------------------#
+#requirement:								      #	
+#HOMER, MEME should be installed. findMotifsGenome.pl, annotatePeaks.pl and   # # tomtom should be added to your environmental path.                          #
+#-----------------------------------------------------------------------------#
+#Python packages "networkX" and "matplotlib.pyplot" are needed for graphical  #
+#anaylsis. There may be other pre-required package needed for ploting graphs  #	#---------------------------------------------------------------------------- #	#unix command "shuf" and "split" should be accessible                         #	#-----------------------------------------------------------------------------#	#input: (1)alignment bed or peak files (2)reference genome file               #	#(3)k, for k-fold corss validation (4) threshold for tomtom		      #
+############################################################################### 
+
 #!/bin/bash
 set -e
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" #DIR is the absolute path where workflow.sh lies
 
 
 #check pre-required programs and packages
