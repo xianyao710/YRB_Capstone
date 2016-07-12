@@ -1,26 +1,60 @@
 #check if HOMER, MEME suite is already installed and tomtom is added to enviromental path
 
-{
-	echo -n "The version of tomtom is " 
-	tomtom --version
-} || {
-	echo "tomtom is not installed or not added to enviromental path"
-	exit 1 
-}
-
-{
-	python -c "import networkx"
-	echo "The required package networkx is installed"
-} || {
-	echo "Required python package networkx is not installed properply "
+shuf --help
+if [ "$?" -eq "1" ];then
+	echo "shuf is not available"
 	exit 1
-}
+else
+	echo "shuf seems to work fine"
+fi
 
-{
-	echo "check if HOMER is already installed and added to enviromental path"
-	findMotifsGenome.pl -h
-	annotatePeaks.pl -h
-}||{
-	echo "homer is not installed or not added to environment path"
+findMotifsGenome.pl -h
+annotatePeaks.pl -h
+
+if [ "$?" -eq "1" ];then
+	echo "HOMER not correctly configured. bin folder should be added to environment path"	
 	exit 1
-}
+else
+	echo "HOMER is correctly configured"
+fi
+
+TOM=$(tomtom --version) 
+
+if [ "$?" -eq "1" ];then
+	echo "tomtom is not installed or not added to envrioment path"
+	exit 1
+else
+	echo "tomtom $TOM is correctly installed"
+fi
+
+python -c "import networkx"
+if [ "$?" -eq "1" ];then
+	echo "python module networkx is not found"
+	exit 1
+else
+	echo "python module networkx found"
+fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
