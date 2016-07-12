@@ -47,7 +47,10 @@ while [ "$1" != "" ];do
 	-o | --output)  shift
 			outdir=$1
 			;;
-	-h | --help)	echo "-p or --pos for 1st argument :bed or homer peak file"
+	-h | --help)	
+			echo ""
+			echo "Arugments listed below:"
+			echo "-p or --pos for 1st argument :bed or homer peak file"
 			echo "-g or --genome for 2nd argument :reference genome"
 			echo "-f or --fold numeric number for k-fold cross validation"
 			echo "-e or --extract for filtering out motifs with evalue bigger than this parameter"
@@ -76,7 +79,7 @@ if [ -z "$thresh" ];then
 fi
 
 #must have parameters
-if [ -z $position || -z $genome|| -z $outdir ];then
+if [ -z $position || -z $genome  || -z $outdir  ];then
 	echo "Wrong input. Check usage of this program !"
 	exit 1
 fi
@@ -84,8 +87,8 @@ fi
 #change directory to output path
 echo "All output will be put under the $outdir directory"
 cd $outdir
-log=$outdir"/log.txt"
-touch $log
+tmp=$outdir"/log.txt"
+touch $tmp
 #separate peak or bed files randomly into k group for k-fold cross validation
 echo "You have chosen $fold-fold cross validation" >> $log
 mkdir test_group

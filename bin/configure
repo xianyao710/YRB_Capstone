@@ -1,6 +1,6 @@
 #check if HOMER, MEME suite is already installed and tomtom is added to enviromental path
 
-shuf --help
+type shuf
 if [ "$?" -eq "1" ];then
 	echo "shuf is not available"
 	exit 1
@@ -8,8 +8,8 @@ else
 	echo "shuf seems to work fine"
 fi
 
-findMotifsGenome.pl -h
-annotatePeaks.pl -h
+type findMotifsGenome.pl
+type annotatePeaks.pl 
 
 if [ "$?" -eq "1" ];then
 	echo "HOMER not correctly configured. bin folder should be added to environment path"	
