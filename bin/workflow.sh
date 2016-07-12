@@ -27,7 +27,7 @@ fi
 
 
 #detect command line input and assign them to variable if appropriate
-while ["$1" != ""];do
+while [ "$1" != "" ];do
 	case $1 in
 	-p | --pos)	shift
 			position=$1
@@ -38,6 +38,9 @@ while ["$1" != ""];do
 	-f | --fold)	shift
 			fold=$1
 			;;
+	-e | --extract) shift
+			evalue=$1
+			;;
 	-t | --thresh)  shift
 			thresh=$1
 			;;	
@@ -46,7 +49,10 @@ while ["$1" != ""];do
 			;;
 	-h | --help)	echo "-p or --pos for 1st argument :bed or homer peak file"
 			echo "-g or --genome for 2nd argument :reference genome"
-			echo "-f or --fold for 3rd argument: numeric number for k-fold cross validation"
+			echo "-f or --fold numeric number for k-fold cross validation"
+			echo "-e or --extract for filtering out motifs with evalue bigger than this parameter"
+			echo "-t or --thresh for tomtom comparison"
+			echo "-o or --output for output directory"
 			exit
 			;;	
 	* )		echo "type -h or --help for usage"
@@ -55,6 +61,25 @@ while ["$1" != ""];do
 	shift
 done
 
+#configure default parameters if not provided by the user
+#optional parameters
+if [ -z "$fold" ];then
+	fold=10
+fi
+
+if [ -z "$evalue" ];then
+	evalue=0.001
+fi
+
+if [ -z "$thresh" ];then
+	thresh=0.001
+fi
+
+#must have parameters
+if [ -z $position || -z $genome|| -z $outdir ];then
+	echo "Wrong input. Check usage of this program !"
+	exit 1
+fi
 
 #change directory to output path
 echo "All output will be put under the $outdir directory"
@@ -77,7 +102,7 @@ rm tmp.new
 
 cd test_group
 shopt -s extglob	# for running th command below
-for file in group*;do cat -- !(file) > ${file/group/train};done   # concatenate remaining files as training set in each round
+for file in group*;do cat -- !($file) > ${file/group/train};done   # concatenate remaining files as training set in each round
 mv train* ../train_group
 echo "random separation completed" >> $log
 
@@ -103,11 +128,16 @@ else
 	echo "Error in format processing" >> $log
 fi
 
+#filter meme motifs 
+tmp="tmp.txt"
+python $DIR"/extract_motif.py" -i $raw_meme -t $evalue -o $tmp
+rm $raw_meme
+mv $tmp $raw_meme
+
 #tomtom comparison of motifs in meme format
 tomtom -thresh $thresh -evalue $raw_meme $raw_meme
 
-
-if [! -d "Clustering_out"];then
+if [ ! -d "Clustering_out" ];then
 	mkdir Clustering_out
 fi
 #extract motif id and output raw_edgelist file
@@ -118,10 +148,12 @@ echo "Clustering_out contains results of motif clustering and merging" >> README
 #extract motif clusters in graph
 python $DIR"/GetCluster.py" -i raw_edgelist -t $fold
 
-if [! [-d "Nodes"]];then
+if [ ! -d "Nodes" ];then
 	mkdir Nodes
 fi
-if ls cluster*.txt 1> /dev/null 2>&1; then
+
+# check if any motif clusters are extracted 
+if [ [ $(ls -A cluster*.txt) ] ]; then
 	echo "there are clusters extracted" >> $log
 else
 	echo "No clusters extracted, program halted" >> $log
@@ -134,7 +166,7 @@ echo "Cluster_meme folder contains meme motif extracted from similarity graph" >
 
 #generate motif group files in meme format
 cd Nodes
-for file in cluster*.txt;do python $DIR"/extract_motif.py" -i $raw_meme -n $file -o "../Cluster_meme"$file".meme";done 
+for file in cluster*.txt;do python $DIR"/extract_motif.py" -i $raw_meme -n $file -o "../Cluster_meme/"${file/txt/meme};done 
 
 
 
@@ -149,7 +181,7 @@ cd ..
 
 #convert consensus motif to homer format
 mkdir Consensus_Homer_motif
-echo "Consensus_Homer_motif folder contains consensus motif in homer forat" >> Consensus_Homer_motif/README.txt
+echo "Consensus_Homer_motif folder contains consensus motif in homer format" >> Consensus_Homer_motif/README.txt
 
 cd Cluster_consensus
 for file in *.consensus;do python $DIR"/consensus2homer.py" -i $file -o "../Consensus_Homer_motif/"${file/consensus/homer};done
