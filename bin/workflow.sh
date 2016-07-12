@@ -29,18 +29,21 @@ fi
 #detect command line input and assign them to variable if appropriate
 while ["$1" != ""];do
 	case $1 in
-	-p | --pos)	position=$1
-			shift
+	-p | --pos)	shift
+			position=$1
 			;;
-	-g | --genome)	genome=$1
-			shift
+	-g | --genome)  shift
+			genome=$1
 			;;
-	-f | --fold)	fold=$1
-			shift
+	-f | --fold)	shift
+			fold=$1
 			;;
-	-t | --thresh)  thresh=$1
-			shift
+	-t | --thresh)  shift
+			thresh=$1
 			;;	
+	-o | --output)  shift
+			outdir=$1
+			;;
 	-h | --help)	echo "-p or --pos for 1st argument :bed or homer peak file"
 			echo "-g or --genome for 2nd argument :reference genome"
 			echo "-f or --fold for 3rd argument: numeric number for k-fold cross validation"
@@ -52,31 +55,31 @@ while ["$1" != ""];do
 	shift
 done
 
-#use HOMER script findMotifsGenome.pl to predict motifs in region of interest
-cd $position
-echo "HOMER output will be put under the workflow_out directory"
-mkdir workflow_out
-cd workflow_out
 
+#change directory to output path
+echo "All output will be put under the $outdir directory"
+cd $outdir
+log=$outdir"/log.txt"
+touch $log
 #separate peak or bed files randomly into k group for k-fold cross validation
-echo "You have chosen $fold-fold cross validation"
+echo "You have chosen $fold-fold cross validation" >> $log
 mkdir test_group
 mkdir train_group
 
 grep "^[^#]" $pos > tmp.txt #ignore comment lines
 shuf -o tmp.new tmp.txt
-bash $DIR"/split.sh" tmp.new $fold group
-for file in group*;do mv $file ${file/./};done 
+bash $DIR"/split.sh" tmp.new $fold group        #split peak files into k groups of equal size
+for file in group*;do mv $file ${file/./};done  #change file name e.g. group.01 changed into group01
 mv group* test_group
 rm tmp.txt
 rm tmp.new
 
 
 cd test_group
-shopt -s extglob
-for file in group*;do cat -- !(file) > ${file/group/train};done
+shopt -s extglob	# for running th command below
+for file in group*;do cat -- !(file) > ${file/group/train};done   # concatenate remaining files as training set in each round
 mv train* ../train_group
-echo "random separation completed"
+echo "random separation completed" >> $log
 
 #use HOMER script findMotifsGenome.pl to predict novel motifs in 
 cd ../train_group
@@ -95,9 +98,9 @@ raw_meme="all_train.meme"
 Rscript $DIR"/motif2meme.R" all_train.homer $raw_meme
 if [ $? -eq 0 ]
 then 
-	echo "Format transformation succeed"
+	echo "Format transformation succeed" >> $log
 else
-	echo "Error in format processing"
+	echo "Error in format processing" >> $log
 fi
 
 #tomtom comparison of motifs in meme format
@@ -119,9 +122,9 @@ if [! [-d "Nodes"]];then
 	mkdir Nodes
 fi
 if ls cluster*.txt 1> /dev/null 2>&1; then
-	echo "there are clusters extracted"
+	echo "there are clusters extracted" >> $log
 else
-	echo "No clusters extracted, program halted"
+	echo "No clusters extracted, program halted" >> $log
 	exit 1
 fi
 mv cluster*.txt Nodes/
