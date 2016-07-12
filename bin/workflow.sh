@@ -4,10 +4,15 @@
 #     			     xianyao@indiana.edu                              #
 #-----------------------------------------------------------------------------#
 #requirement:								      #	
-#HOMER, MEME should be installed. findMotifsGenome.pl, annotatePeaks.pl and   # # tomtom should be added to your environmental path.                          #
+#HOMER, MEME should be installed. findMotifsGenome.pl, annotatePeaks.pl and   #
+# tomtom should be added to your environmental path.                          #                       
 #-----------------------------------------------------------------------------#
 #Python packages "networkX" and "matplotlib.pyplot" are needed for graphical  #
-#anaylsis. There may be other pre-required package needed for ploting graphs  #	#---------------------------------------------------------------------------- #	#unix command "shuf" and "split" should be accessible                         #	#-----------------------------------------------------------------------------#	#input: (1)alignment bed or peak files (2)reference genome file               #	#(3)k, for k-fold corss validation (4) threshold for tomtom		      #
+#anaylsis. There may be other pre-required package needed for ploting graphs  #
+#---------------------------------------------------------------------------- #	
+#unix command "shuf" and "split" should be accessible                         #
+#-----------------------------------------------------------------------------#	
+#input: (1)alignment bed or peak files (2)reference genome file               #	
 ############################################################################### 
 
 #!/bin/bash
