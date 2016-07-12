@@ -79,7 +79,7 @@ if [ -z "$thresh" ];then
 fi
 
 #must have parameters
-if [ -z $position || -z $genome  || -z $outdir  ];then
+if [[ -z $position || -z $genome  || -z $outdir  ]];then
 	echo "Wrong input. Check usage of this program !"
 	exit 1
 fi
