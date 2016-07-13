@@ -1,13 +1,29 @@
-bin folder contains the basic tools that are needed to conduct our workflow
+################################
+#README for running workflow.sh#
+################################
+/bin folder contains all the scripts needed to run workflow.sh.
+workflow.sh takes <region of interest> <reference genome> [OPTION] as input for non-redundant novel motif discovery.
+
+See more detail by typying
+$bash workflow.sh -h/--help
+
 -----------------------------------------------------------------------------
-This workflow aims to retrieve non-redundant motifs from HOMER motif input.
+How to run a example job?
+$bash workflow.sh -p tss.txt -g hg19
+
+All results are put in the Workflow_out directory
 -----------------------------------------------------------------------------
+Dependencies for running workflow.sh
+
 MEME suite is required to be installed, and the enviromental path for program `tomtom` should be added to ~/.bash_profile.
 
-motif2meme.R is the R script to convert motif from HOMER to meme format.
+HOMER software is required for using findMotifsGenome.pl and annotatePeaks.pl scripts, which should also be included in environment path
 
-GetCluster.py takes 1,2 column of tomtom.txt to extract highly connected subgraphs
+bash command "shuf" and "split" should be included. 
 
-extract_cluster.py produces motifs in meme format if motif names file provided.
+python module "networkx" and "matplotlib.pyplot" should pre-installed for graphical analysis
+(python version should be higher than 2.6 for running "networkx")
 
-MotifReduce.pl generates consensus motifs based on calculating distance between motifs and recursively merge of motifs.
+
+
+
