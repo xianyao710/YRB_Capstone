@@ -54,9 +54,13 @@ while [ "$1" != "" ];do
 			;;
 	-h | --help)	
 			echo ""
+			echo "basic usage:  workflow.sh -p <peak or bed file> -g <genome>  [OPTION]"
+			echo ""
 			echo "Arugments listed below:"
 			echo "-p or --pos for 1st argument :bed or homer peak file"
 			echo "-g or --genome for 2nd argument :reference genome"
+			echo ""
+			echo "[Optional argument]"
 			echo "-f or --fold numeric number for k-fold cross validation"
 			echo "-e or --extract for filtering out motifs with evalue bigger than this parameter"
 			echo "-t or --thresh for tomtom comparison"
@@ -84,9 +88,20 @@ if [ -z "$thresh" ];then
 fi
 
 #must have parameters
-if [[ -z $position || -z $genome  || -z $outdir  ]];then
-	echo "Wrong input. Check usage of this program !"
+if [[ -z $position ]];then
+	echo "No peak or bed position file detected, please check help info by typing workflow.sh -h/--help"
 	exit 1
+fi
+
+if [[ -z $genome ]];then
+	echo "No reference genome file detected, please check help info by typing workflow.sh -h/--help"
+	exit 1
+fi
+
+if [[ -z $outdir ]];then
+	echo "No output directory specified, we create the Workflow_out folder under the same parent directory as your peak file"
+	outdir= $(dirname position)"/Workflow_out"
+	mkdir $outdir           
 fi
 
 #change directory to output path
