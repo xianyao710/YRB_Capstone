@@ -182,7 +182,7 @@ cd ../Cluster_meme
 mkdir ../Cluster_consensus
 echo "Cluster_consensus folder contains the consensus motifs for each cluster" >> ../Cluster_consensus/README.txt
 
-for file in *.meme;do perl $DIR"/MotifSetReduce.pl" -m $file > "../Cluster_meme"${file/meme/consensus}; done
+for file in *.meme;do perl $DIR"/MotifSetReduce.pl" -m $file > "../Cluster_consensus"${file/meme/consensus}; done
 
 cd ..
 
