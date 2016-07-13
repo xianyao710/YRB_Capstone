@@ -92,10 +92,9 @@ fi
 #change directory to output path
 echo "All output will be put under the $outdir directory"
 cd $outdir
-tmp=$outdir"/log.txt"
-touch $tmp
+
 #separate peak or bed files randomly into k group for k-fold cross validation
-echo "You have chosen $fold-fold cross validation" >> $log
+echo "You have chosen $fold-fold cross validation" 
 mkdir test_group
 mkdir train_group
 
@@ -112,7 +111,7 @@ cd test_group
 shopt -s extglob	# for running th command below
 for file in group*;do cat -- !($file) > ${file/group/train};done   # concatenate remaining files as training set in each round
 mv train* ../train_group
-echo "random separation completed" >> $log
+echo "random separation completed" 
 
 #use HOMER script findMotifsGenome.pl to predict novel motifs in 
 cd ../train_group
@@ -131,9 +130,9 @@ raw_meme="all_train.meme"
 Rscript $DIR"/motif2meme.R" all_train.homer $raw_meme
 if [ $? -eq 0 ]
 then 
-	echo "Format transformation succeed" >> $log
+	echo "Format transformation succeed" 
 else
-	echo "Error in format processing" >> $log
+	echo "Error in format processing" 
 fi
 
 #filter meme motifs 
@@ -162,9 +161,9 @@ fi
 
 # check if any motif clusters are extracted 
 if [ [ $(ls -A cluster*.txt) ] ]; then
-	echo "there are clusters extracted" >> $log
+	echo "there are clusters extracted" 
 else
-	echo "No clusters extracted, program halted" >> $log
+	echo "No clusters extracted, program halted" 
 	exit 1
 fi
 mv cluster*.txt Nodes/
