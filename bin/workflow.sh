@@ -107,7 +107,9 @@ fi
 if [[ -z $outdir ]];then
 	echo "No output directory specified, we create the Workflow_out folder under the same parent directory as your peak file"
 	outdir=$(dirname $(readlink -f $position))"/Workflow_out"
-	mkdir $outdir           
+	if [ ! -d "$outdir" ];then
+		mkdir $outdir
+     	fi		
 fi
 
 position=$(readlink -f $position)
