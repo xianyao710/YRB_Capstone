@@ -52,8 +52,8 @@ while [ "$1" != "" ];do
 	-o | --output)  shift
 			outdir=$1
 			;;
-	-h | --help)	
-			echo ""
+	-h | --help)	echo ""
+			echo "=========================================================="
 			echo "basic usage:  workflow.sh -p <peak or bed file> -g <genome>  [OPTION]"
 			echo ""
 			echo "Arugments listed below:"
@@ -65,6 +65,7 @@ while [ "$1" != "" ];do
 			echo "-e or --extract for filtering out motifs with evalue bigger than this parameter"
 			echo "-t or --thresh for tomtom comparison"
 			echo "-o or --output for output directory"
+			echo ""
 			exit
 			;;	
 	* )		echo "type -h or --help for usage"
@@ -104,6 +105,9 @@ if [[ -z $outdir ]];then
 	mkdir $outdir           
 fi
 
+
+echo ""
+echo "Configuration for command line input is completed!"
 #change directory to output path
 echo "All output will be put under the $outdir directory"
 cd $outdir
@@ -131,7 +135,10 @@ echo "random separation completed"
 #use HOMER script findMotifsGenome.pl to predict novel motifs in 
 cd ../train_group
 echo "begin HOMER findMotifsGenome.pl --->"
-for file in train*;do findMotifsGenome.pl $file $genome $file"_Homer_out" -len 6,8,10,12 -size -60,40;done
+for file in train*;do 
+	findMotifsGenome.pl $file $genome $file"_Homer_out" -len 6,8,10,12 -size -60,40
+	echo "motif finding for $file is completed"
+done
 echo "Motifs finding completed!"
 
 mkdir ../Train_Homer

@@ -18,13 +18,13 @@ else
 	echo "HOMER is correctly configured"
 fi
 
-TOM=$(tomtom --version) 
+type tomtom
 
 if [ "$?" -eq "1" ];then
 	echo "tomtom is not installed or not added to envrioment path"
 	exit 1
 else
-	echo "tomtom $TOM is correctly installed"
+	echo "tomtom is correctly installed"
 fi
 
 python -c "import networkx"
