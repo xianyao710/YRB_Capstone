@@ -130,7 +130,9 @@ echo "random separation completed"
 
 #use HOMER script findMotifsGenome.pl to predict novel motifs in 
 cd ../train_group
+echo "begin HOMER findMotifsGenome.pl --->"
 for file in train*;do findMotifsGenome.pl $file $genome $file"_Homer_out" -len 6,8,10,12 -size -60,40;done
+echo "Motifs finding completed!"
 
 mkdir ../Train_Homer
 echo "Train_Homer contains homer motifs for all training sets" >> ../Train_Homer/README.txt
