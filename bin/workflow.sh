@@ -99,7 +99,7 @@ if [[ -z $position ]];then
 	exit 1
 fi
 
-if [[ -z $genome ] && [ -z $GENOME ]];then
+if [ -z "$genome" ] && [ -z "$GENOME" ];then
 	echo "No reference genome file detected, please check help info by typing workflow.sh -h/--help"
 	exit 1
 fi
