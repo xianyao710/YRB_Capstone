@@ -69,7 +69,7 @@ while [ "$1" != "" ];do
 			echo ""
 			exit
 			;;	
-	* )		echo "type -h or --help for usage"
+	* )		echo " Wrong input format! Type -h or --help for usage"
 			exit 1
 	esac
 	shift
