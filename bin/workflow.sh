@@ -41,6 +41,9 @@ while [ "$1" != "" ];do
 	-g | --genome)  shift
 			genome=$1
 			;;
+	-G | --GENOME)  shift
+			GENOME=$1
+			;;
 	-f | --fold)	shift
 			fold=$1
 			;;
@@ -60,6 +63,7 @@ while [ "$1" != "" ];do
 			echo "Arugments listed below:"
 			echo "-p or --pos for 1st argument :bed or homer peak file"
 			echo "-g or --genome for 2nd argument :reference genome"
+			echo "or -G/--GENOME for build-in reference genome in homer"
 			echo ""
 			echo "[Optional argument]"
 			echo "-f or --fold numeric number for k-fold cross validation"
@@ -95,7 +99,7 @@ if [[ -z $position ]];then
 	exit 1
 fi
 
-if [[ -z $genome ]];then
+if [[ -z $genome ] && [ -z $GENOME ]];then
 	echo "No reference genome file detected, please check help info by typing workflow.sh -h/--help"
 	exit 1
 fi
@@ -107,7 +111,11 @@ if [[ -z $outdir ]];then
 fi
 
 position=$(readlink -f $position)
-genome=$(readlink -f $position)		#use absolute path
+if [[ -n $genome  ]];then
+	genome=$(readlink -f $genome)		#use absolute path
+else
+	genome=$GENOME                          #use reference genome name built-in homer
+fi
 outdir=$(readlink -f $outdir)
 
 echo ""
