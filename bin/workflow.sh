@@ -149,8 +149,8 @@ rm tmp.new
 
 cd test_group
 shopt -s extglob	# for running th command below
-for file in group*;do cat -- !($file) > ${file/group/train};done   # concatenate remaining files as training set in each round
-mv train* ../train_group
+for file in group*;do cat -- !($file) > "../train_group/"${file/group/train};done   # concatenate remaining files as training set in each round
+
 
 if [ "$?" -eq "1" ];then
 	echo "Woops, something wrong happened when making training sets!"
