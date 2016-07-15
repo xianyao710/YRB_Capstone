@@ -8,6 +8,19 @@ MoVRs lets users specify their regions of interest in the genome, and then imple
  
 ##Quick install
 ###Download and uncompress
+```
+$wget https://github.com/xianyao710/YRB_Capstone/blob/master/MoVRs.tar.gz
+$tar -xzvf MoVRs.tar.gz
+$cd bin
+$bash workflow.sh -h
+```
+Or you can directly folk our Github depository (assuming not through SSH)
+
+```
+$git clone https://github.com/xianyao710/YRB_Capstone.git
+$cd YRB_Capstone/bin
+$bash workflow.sh -h
+```
 
 ### Required program for motif finding
 HOMER and MEME suite are two core incorporated softwares that required for normal function of MoVRs.
