@@ -205,7 +205,7 @@ fi
 
 #########################################################
 #Step 4							#		
-#User HOMER to predict motifs in regions in training set#
+#Use HOMER to predict motifs in regions in training set #
 #########################################################
 
 #use HOMER script findMotifsGenome.pl to predict novel motifs in 
