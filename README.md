@@ -72,8 +72,8 @@ Two input parameters are mandatory.
 Movrs -p <HOMER peak or BED file>
 check file format at [HOMER peak or BED](http://homer.salk.edu/homer/ngs/peakMotifs.html) 
 
-Movrs -G <HOMER build-in reference genome e.g. hg19 for human >
-Movrs -g <fasta genome file provided by users>
+Movrs -G `<`HOMER build-in reference genome e.g. hg19 for human `>`
+Movrs -g `<`fasta genome file provided by users`>`
 
 ###Simple command
 ```
