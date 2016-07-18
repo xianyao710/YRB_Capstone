@@ -11,16 +11,18 @@ MoVRs lets users specify their regions of interest in the genome, and then imple
 ```
 $wget https://github.com/xianyao710/YRB_Capstone/blob/master/MoVRs.tar.gz
 $tar -xzvf MoVRs.tar.gz
-$cd bin
-$bash workflow.sh -h
+$PATH=$PATH:/your working directory/MoVRs/bin
+$export PATH
+$bash MoVRs.sh -h
 ```
 Or you can directly folk our Github depository (assuming not through SSH)
 
 ```
 $git clone https://github.com/xianyao710/YRB_Capstone.git
 $cd YRB_Capstone/bin
-$bash workflow.sh -h
+$bash MoVRs.sh -h
 ```
+
 
 ### Required program for motif finding
 HOMER and MEME suite are two core incorporated softwares that required for normal function of MoVRs.
@@ -54,14 +56,11 @@ Python module "networkx" and "matplotlib.pyplot" should be able to work so that 
 
 Download python module [Networkx](https://pypi.python.org/pypi/networkx/)
 
-Download python module [matplotlib](http://matplotlib.org)
-
 If you've installed pip for installing python packages, then you can type
 
 ```
 $pip install networkx
 
-$pip install matplotlib
 
 ```
 
@@ -69,10 +68,11 @@ $pip install matplotlib
 ###Prepare your input
 Two input parameters are mandatory.
 
-Movrs -p <HOMER peak or BED file>
-check file format at [HOMER peak or BED](http://homer.salk.edu/homer/ngs/peakMotifs.html) 
+Movrs -p `<`HOMER peak or BED file`>`
 
+check file format at [HOMER peak or BED](http://homer.salk.edu/homer/ngs/peakMotifs.html) 
 Movrs -G `<`HOMER build-in reference genome e.g. hg19 for human `>`
+
 Movrs -g `<`fasta genome file provided by users`>`
 
 ###Simple command
