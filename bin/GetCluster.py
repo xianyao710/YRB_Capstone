@@ -1,7 +1,6 @@
 #this is a python script to extract motif clusters 
 
 import networkx as nx
-import matplotlib.pyplot as plt
 import argparse
 
 if __name__ == "__main__":
@@ -25,8 +24,6 @@ if __name__ == "__main__":
 	output = nx.Graph()
 	for each in cluster:
 		output = nx.union(output,each)
-	nx.draw(output)
-	plt.savefig('extract_clusters.png')
 	
 	#output the files which contain nodes id in each extracted cluster
 	nodes=[]
