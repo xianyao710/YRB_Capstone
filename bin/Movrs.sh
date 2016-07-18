@@ -1,11 +1,11 @@
 ###############################################################################
-#  		        workflow.sh is written by                             #
-#        			 Xiangyu Yao	                              #
+#  		        Movrs.sh is written by                                #
+#        Xiangyu Yao, Raborn R.Taylor and Volker Brendel                      #
 #     			     xianyao@indiana.edu                              #
 #-----------------------------------------------------------------------------#
 #requirement:								      #	
 #HOMER, MEME should be installed. findMotifsGenome.pl, annotatePeaks.pl and   #
-# tomtom should be added to your environmental path.                          #                       
+# tomtom should be added to your environmental path.                          #          #                                                                             #
 #-----------------------------------------------------------------------------#
 #Python packages "networkX" and "matplotlib.pyplot" are needed for graphical  #
 #anaylsis. There may be other pre-required package needed for ploting graphs  #
@@ -17,12 +17,14 @@
 
 #!/bin/bash
 set -e
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" #DIR is the absolute path where workflow.sh lies
+set -o
+######################################
+#Step 1				     #	
+#Check required program and packages #
+######################################
 
-
-#check pre-required programs and packages
 echo "Checking required programs and packages ------> "
-bash $DIR"/configure"
+bash configure
 if [ "$?" -eq "0" ];then
 	echo ""
 	echo "Configuration is completed"
@@ -31,6 +33,12 @@ else
 	exit 1
 fi
 
+
+
+#####################################
+#Step 2			            #
+#Parse command line input           #
+#####################################
 
 #detect command line input and assign them to variable if appropriate
 while [ "$1" != "" ];do
@@ -43,6 +51,12 @@ while [ "$1" != "" ];do
 			;;
 	-G | --GENOME)  shift
 			GENOME=$1
+			;;
+	-s | --size)	shift
+			size=$1
+			;;
+	-l | --length)	shift
+			length=$1
 			;;
 	-f | --fold)	shift
 			fold=$1
@@ -58,12 +72,21 @@ while [ "$1" != "" ];do
 			;;
 	-h | --help)	echo ""
 			echo "=========================================================="
-			echo "basic usage:  workflow.sh -p <peak or bed file> -g <genome>  [OPTION]"
+			echo "basic usage:  Movrs.sh -p <peak or bed file> -g <genome>  [OPTION]"
 			echo ""
 			echo "Arugments listed below:"
 			echo "-p or --pos for 1st argument :bed or homer peak file"
+			echo "####################################################"
+			echo "#Check HOMER peak files or BED files format at     #"
+			echo "#http://homer.salk.edu/homer/ngs/peakMotifs.html   #"
+			echo "####################################################"
+			echo ""
 			echo "-g or --genome for 2nd argument :reference genome"
+			echo "usually in fasta format"
 			echo "or -G/--GENOME for build-in reference genome in homer"
+			echo ""
+			echo "-s or --size for the sequence window centered on mid point e.g. -60,40 is default"
+			echo "-l pr --length for length of motifs e.g. -len 6,8,10,12 is default"
 			echo ""
 			echo "[Optional argument]"
 			echo "-f or --fold numeric number for k-fold cross validation"
@@ -93,20 +116,27 @@ if [ -z "$thresh" ];then
 	thresh=0.001
 fi
 
+if [ -z "$size" ];then
+	size="-60,40"
+fi
+
+if [ -z "$length" ];then
+	length="6,8,10,12"
+fi
 #must have parameters
 if [[ -z $position ]];then
-	echo "No peak or bed position file detected, please check help info by typing workflow.sh -h/--help"
+	echo "No peak or bed position file detected, please check help info by typing Movrs.sh -h/--help"
 	exit 1
 fi
 
 if [ -z "$genome" ] && [ -z "$GENOME" ];then
-	echo "No reference genome file detected, please check help info by typing workflow.sh -h/--help"
+	echo "No reference genome file detected, please check help info by typing Movrs.sh -h/--help"
 	exit 1
 fi
 
 if [[ -z $outdir ]];then
 	echo "No output directory specified, we create the Workflow_out folder under the same parent directory as your peak file"
-	outdir=$(dirname $(readlink -f $position))"/Workflow_out"
+	outdir=$(dirname $(readlink -f $position))"/Movrs_out"
 	if [ ! -d "$outdir" ];then
 		mkdir $outdir
      	fi		
@@ -126,6 +156,13 @@ echo "Configuration for command line input is completed!"
 echo "All output will be put under the $outdir directory"
 cd $outdir
 
+
+
+#################################
+#Step 3			        #
+#make training sets and test set#
+#################################
+
 #separate peak or bed files randomly into k group for k-fold cross validation
 echo "You have chosen $fold-fold cross validation" 
 mkdir test_group
@@ -134,7 +171,7 @@ mkdir train_group
 echo "begin cross-validation process ------>"
 grep "^[^#]" $position > tmp.txt #ignore comment lines
 shuf -o tmp.new tmp.txt
-bash $DIR"/split.sh" tmp.new $fold group        #split peak files into k groups of equal size
+bash MovrsSplit.sh tmp.new $fold group        #split peak files into k groups of equal size
 
 if [ "$?" -eq "1" ];then
 	echo "Something goes wrong when using shuf and split"
@@ -162,12 +199,17 @@ else
 fi
 
 
+#########################################################
+#Step 4							#		
+#User HOMER to predict motifs in regions in training set#
+#########################################################
+
 #use HOMER script findMotifsGenome.pl to predict novel motifs in 
 cd ../train_group
 echo "begin HOMER findMotifsGenome.pl --->"
 for file in train*;do 
 	echo "Begin findMotifsGenome.pl for $file set..."
-	findMotifsGenome.pl $file $genome $file"_Homer_out" -len 6,8,10,12 -size -60,40
+	findMotifsGenome.pl $file $genome $file"_Homer_out" -len $length -size $size
 	echo "motif finding for $file is completed"
 done
 
@@ -194,11 +236,16 @@ if [ "$?" -eq "1" ];then
 else
 	echo "all_train.homer is successfully created! Heading to next step -->"
 fi
-	
+
+
+########################################################
+#Step 5						       #
+#Convert homer motif to meme format and run Tomtom     #
+########################################################
 	
 #process the raw_homer motif to meme format
 raw_meme="all_train.meme"
-Rscript $DIR"/motif2meme.R" all_train.homer $raw_meme
+Rscript MovrsMotif2meme.R all_train.homer $raw_meme
 if [ "$?" -eq "0" ];then 
 	echo "Format transformation succeed" 
 else
@@ -207,7 +254,7 @@ fi
 
 #filter meme motifs 
 tmp="tmp.txt"
-python $DIR"/extract_motif.py" -i $raw_meme -t $evalue -o $tmp
+python MovrsExtract_motif.py -i $raw_meme -t $evalue -o $tmp
 rm $raw_meme
 mv $tmp $raw_meme
 
@@ -230,13 +277,18 @@ fi
 if [ ! -d "Clustering_out" ];then
 	mkdir Clustering_out
 fi
-#extract motif id and output raw_edgelist file
+
+######################################################
+#Step 6						     #			
+#Graphical clustering of training motifs             #
+######################################################
+
 cut -f 1,2 tomtom_out/tomtom.txt > raw_edgelist
 mv raw_edgelist ./Clustering_out
 cd Clustering_out
 echo "Clustering_out contains results of motif clustering and merging" >> README.txt
 #extract motif clusters in graph
-python $DIR"/GetCluster.py" -i raw_edgelist -t $fold
+python MovrsGetCluster.py -i raw_edgelist -t $fold
 
 if [ "$?" -eq "1" ];then
 	echo "Woops, something goes wrong when trying to extract clusters from motif similarity graph!"
@@ -266,7 +318,7 @@ echo "Cluster_meme folder contains meme motif extracted from similarity graph" >
 cd Nodes
 for file in cluster*.txt;
 do 
-	python $DIR"/extract_motif.py" -i $raw_meme -n $file -o "../Cluster_meme/"${file/txt/meme}
+	python MovrsExtract_motif.py -i $raw_meme -n $file -o "../Cluster_meme/"${file/txt/meme}
 	echo "Trying to extract motifs in $file from raw motif set"
 done 
 
@@ -278,7 +330,11 @@ else
 	echo "Succeed extracting motifs in each cluster"
 fi
 
-#generate consensus motif for each group
+##########################################
+#Step 7 				 #
+#generate consensus motif for each group #
+##########################################
+
 cd ../Cluster_meme
 mkdir ../Cluster_consensus
 echo "Cluster_consensus folder contains the consensus motifs for each cluster" >> ../Cluster_consensus/README.txt
@@ -286,7 +342,7 @@ echo "Cluster_consensus folder contains the consensus motifs for each cluster" >
 for file in *.meme;
 do 
 	echo "Trying to generate consensus motifs for $file ..."
-	perl $DIR"/MotifSetReduce.pl" -m $file > "../Cluster_consensus"${file/meme/consensus}
+	perl MovrsMotifSetReduce.pl -m $file > "../Cluster_consensus"${file/meme/consensus}
 	echo "Succeed generating consensus motifs for $file !"
 	echo ""
 done
@@ -298,6 +354,11 @@ else
 
 cd ..
 
+##########################################################
+#Step 8							 #
+#Genereate homer motifs and annotate their positions     #
+##########################################################
+
 #convert consensus motif to homer format
 mkdir Consensus_Homer_motif
 echo "Consensus_Homer_motif folder contains consensus motif in homer format" >> Consensus_Homer_motif/README.txt
@@ -306,7 +367,7 @@ cd Cluster_consensus
 for file in *.consensus;
 do 
 	echo "Trying to convert consensus motif in $file to homer format ..."
-	python $DIR"/consensus2homer.py" -i $file -o "../Consensus_Homer_motif/"${file/consensus/homer}
+	python MovrsConsensus2homer.py -i $file -o "../Consensus_Homer_motif/"${file/consensus/homer}
 	echo "Succeed converting $file to homer format"
 	echo ""
 done
