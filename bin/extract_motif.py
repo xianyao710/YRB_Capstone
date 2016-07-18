@@ -10,7 +10,7 @@ def ParseMEME(filePath):
 	tabs = content.split('MOTIF')
 	for i in range(1,len(tabs)):
 		current = tabs[i]
-		title = 'MOTIF'+ current.split('\n')[0]
+		title = 'MOTIF'+ current.split('\n')[0]	
 		name = title.split(' ')[1]
 		tmp = current.split('\n')[0]+'\n'
 		motif = current.replace(tmp,'')
@@ -22,7 +22,9 @@ def check_threshold(motif,threshold):
 	second = lines[1].strip()
 	E_value = second.split('E=')[1].strip()
 	E_value = float(E_value)
-	if math.log(E_value/threshold) <=0:
+	if E_value == 0:
+		return True
+	if math.log(E_value/threshold)<=0: 
 		return True
 
 if __name__ == "__main__":
