@@ -14,6 +14,7 @@
 #-----------------------------------------------------------------------------#	
 #input: (1)alignment bed or peak files (2)reference genome file               #	
 ############################################################################### 
+#make sure you add the bin/ directory to your enviroment path
 
 #!/bin/bash
 set -eu 
@@ -24,7 +25,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ######################################
 
 echo "Checking required programs and packages ------> "
-bash configure
+MovrsConfigure 
 if [ "$?" -eq "0" ];then
 	echo ""
 	echo "Configuration is completed"
@@ -230,37 +231,40 @@ if [ ! -d "../Train_Homer" ];then
 fi
 echo "Train_Homer contains homer motifs for all training sets" >> ../Train_Homer/README.txt
 
-for file in train*[0-9];do cp $file"_Homer_out/homerMotifs.all.motifs" "../Train_Homer/"$file".homer";done
+for file in train*[0-9];
+do 
+	cp $file"_Homer_out/homerMotifs.all.motifs" "../Train_Homer/"$file".homer"
+done
 
-cd ../
-cat Train_Homer/*.homer > all_train.homer
-
-if [ "$?" -eq "1" ];then
-	echo "Oh, something unexpected when trying to concatenate training homer motifs! "
-	echo ""
-	exit 1
-else
-	echo "all_train.homer is successfully created! Heading to next step -->"
-fi
-
+cd ../Train_Homer
 
 ########################################################
 #Step 5						       #
 #Convert homer motif to meme format and run Tomtom     #
 ########################################################
-	
+if [ ! -d "../Train_meme" ];then
+	mkdir ../Train_meme
+fi
+
+for file in *.homer;
+do
+	Rscript $DIR"/MovrsMotif2meme.R" $file "../Train_meme/"${file/homer/meme}
+done	
 #process the raw_homer motif to meme format
 raw_meme="all_train.meme"
-Rscript MovrsMotif2meme.R all_train.homer $raw_meme
+cd ..
+cat Train_meme/*.meme > $raw_meme
+
 if [ "$?" -eq "0" ];then 
 	echo "Format transformation succeed" 
 else
-	echo "There are errors in format processing" 
+	echo "There are errors in homer to meme format processing"
+       	exit 1	
 fi
 
 #filter meme motifs 
 tmp="tmp.txt"
-python MovrsExtractMotif.py -i $raw_meme -t $evalue -o $tmp
+python $DIR"/MovrsExtractMotif.py" -i $raw_meme -t $evalue -o $tmp
 rm $raw_meme
 mv $tmp $raw_meme
 
@@ -271,10 +275,12 @@ else
 fi
 
 #tomtom comparison of motifs in meme format
-tomtom -thresh $thresh -evalue $raw_meme $raw_meme
+tomtom -thresh $thresh -evalue $raw_meme $raw_meme || true
 if [ "$?" -eq "1" ];then
 	echo "Something goes wrong trying to use tomtom!"
-	exit 1
+	if [ -d "tomtom_out" ];then
+		echo " we still continue to analyze"
+	fi
 else
 	echo "tomtom motif comparison is completed!"
 fi
@@ -294,7 +300,8 @@ mv raw_edgelist ./Clustering_out
 cd Clustering_out
 echo "Clustering_out contains results of motif clustering and merging" >> README.txt
 #extract motif clusters in graph
-python MovrsGetCluster.py -i raw_edgelist -t $fold
+ClusterThresh=$((fold-1))
+python $DIR"/MovrsGetCluster.py" -i raw_edgelist -t $ClusterThresh
 
 if [ "$?" -eq "1" ];then
 	echo "Woops, something goes wrong when trying to extract clusters from motif similarity graph!"
@@ -325,7 +332,7 @@ echo "Cluster_meme folder contains meme motif extracted from similarity graph" >
 cd Nodes
 for file in cluster*.txt;
 do 
-	python MovrsExtractMotif.py -i $raw_meme -n $file -o "../Cluster_meme/"${file/txt/meme}
+	python $DIR"/MovrsExtractMotif.py" -i $raw_meme -n $file -o "../Cluster_meme/"${file/txt/meme}
 	echo "Trying to extract motifs in $file from raw motif set"
 done 
 
@@ -351,7 +358,7 @@ echo "Cluster_consensus folder contains the consensus motifs for each cluster" >
 for file in *.meme;
 do 
 	echo "Trying to generate consensus motifs for $file ..."
-	perl MovrsMotifSetReduce.pl -m $file > "../Cluster_consensus"${file/meme/consensus}
+	MovrsMotifSetReduce.pl -m $file > "../Cluster_consensus"${file/meme/consensus}
 	echo "Succeed generating consensus motifs for $file !"
 	echo ""
 done
@@ -378,7 +385,7 @@ cd Cluster_consensus
 for file in *.consensus;
 do 
 	echo "Trying to convert consensus motif in $file to homer format ..."
-	python MovrsConsensus2homer.py -i $file -o "../Consensus_Homer_motif/"${file/consensus/homer}
+	python $DIR"/MovrsConsensus2homer.py" -i $file -o "../Consensus_Homer_motif/"${file/consensus/homer}
 	echo "Succeed converting $file to homer format"
 	echo ""
 done
