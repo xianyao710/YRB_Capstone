@@ -371,7 +371,7 @@ echo "Cluster_consensus folder contains the consensus motifs for each cluster" >
 for file in *.meme;
 do 
 	echo "Trying to generate consensus motifs for $file ..."
-	MovrsMotifSetReduce.pl -m $file > "../Cluster_consensus"${file/meme/consensus}
+	MovrsMotifSetReduce.pl -m $file > "../Cluster_consensus/"${file/meme/consensus}
 	echo "Succeed generating consensus motifs for $file !"
 	echo ""
 done
