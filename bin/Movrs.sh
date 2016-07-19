@@ -18,6 +18,7 @@
 
 #!/bin/bash
 set -e 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ######################################
 #Step 1				     #	
 #Check required program and packages #
@@ -270,7 +271,7 @@ fi
 
 #filter meme motifs 
 tmp="tmp.txt"
-python MovrsExtractMotif.py -i $raw_meme -t $evalue -o $tmp
+python $DIR"/MovrsExtractMotif.py" -i $raw_meme -t $evalue -o $tmp
 rm $raw_meme
 mv $tmp $raw_meme
 raw_meme=$(readlink -f $raw_meme)
@@ -310,7 +311,7 @@ cd Clustering_out
 echo "Clustering_out contains results of motif clustering and merging" >> README.txt
 #extract motif clusters in graph
 ClusterThresh=$((fold-1))
-python MovrsGetCluster.py -i raw_edgelist -t $ClusterThresh
+python $DIR"/MovrsGetCluster.py" -i raw_edgelist -t $ClusterThresh
 
 if [ "$?" -eq "1" ];then
 	echo "Woops, something goes wrong when trying to extract clusters from motif similarity graph!"
@@ -341,7 +342,7 @@ echo "Cluster_meme folder contains meme motif extracted from similarity graph" >
 cd Nodes
 for file in cluster*.txt;
 do 
-	python MovrsExtractMotif.py -i $raw_meme -n $file -o "../Cluster_meme/"${file/txt/meme}
+	python $DIR"/MovrsExtractMotif.py" -i $raw_meme -n $file -o "../Cluster_meme/"${file/txt/meme}
 	echo "Trying to extract motifs in $file from raw motif set"
 done 
 
@@ -394,7 +395,7 @@ cd Cluster_consensus
 for file in *.consensus;
 do 
 	echo "Trying to convert consensus motif in $file to homer format ..."
-	python MovrsConsensus2homer.py -i $file -o "../Consensus_Homer_motif/"${file/consensus/homer}
+	python $DIR"/MovrsConsensus2homer.py" -i $file -o "../Consensus_Homer_motif/"${file/consensus/homer}
 	echo "Succeed converting $file to homer format"
 	echo ""
 done
