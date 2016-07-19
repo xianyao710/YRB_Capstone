@@ -183,7 +183,7 @@ if [ "$?" -eq "1" ];then
 	exit 1
 fi
 
-for file in group[0-1][0-9];
+for file in group*;
 do 
 	mv $file ${file/./}
 done  #change file name e.g. group.01 changed into group01
