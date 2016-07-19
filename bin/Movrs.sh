@@ -380,7 +380,7 @@ if [ "$?" -eq "1" ];then
 	echo "Something goes wrong when trying to generate consensus motifs"
 else
 	echo "Finish generating consensus motif. We are almost done!"
-
+fi
 cd ..
 
 ##########################################################
