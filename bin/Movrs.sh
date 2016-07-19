@@ -136,7 +136,7 @@ if [ -z "$genome" ] && [ -z "$GENOME" ];then
 fi
 
 if [[ -z $outdir ]];then
-	echo "No output directory specified, we create the Workflow_out folder under the same parent directory as your peak file"
+	echo "No output directory specified, we create the Movrs_out folder under the same parent directory as your peak file"
 	outdir=$(dirname $(readlink -f $position))"/Movrs_out"
 	if [ ! -d "$outdir" ];then
 		mkdir $outdir
