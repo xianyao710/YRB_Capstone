@@ -255,7 +255,7 @@ fi
 
 for file in *.homer;
 do
-	Rscript MovrsMotif2meme.R $file "../Train_meme/"${file/homer/meme}
+	Rscript $DIR"/MovrsMotif2meme.R" $file "../Train_meme/"${file/homer/meme}
 done	
 #process the raw_homer motif to meme format
 raw_meme="all_train.meme"
