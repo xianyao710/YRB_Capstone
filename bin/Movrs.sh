@@ -328,11 +328,12 @@ if [ ! -d "Nodes" ];then
 fi
 
 # check if any motif clusters are extracted 
-if [ [ $(ls -A cluster*.txt) ] ]; then
+clusters=$(ls cluster*.txt)
+if [[ $clusters ]]; then
 	echo "there are clusters extracted" 
 else
 	echo "No clusters extracted, program halted" 
-	exit 1
+	exit 0
 fi
 mv cluster*.txt Nodes/
 if [ ! -d "Cluster_meme" ];then
