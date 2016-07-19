@@ -17,7 +17,7 @@
 #make sure you add the bin/ directory to your enviroment path
 
 #!/bin/bash
-set -eu 
+set -e 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ######################################
 #Step 1				     #	
