@@ -379,7 +379,7 @@ done
 if [ "$?" -eq "1" ];then
 	echo "Something goes wrong when trying to generate consensus motifs"
 else
-	echo "Finish generating consensus motif. We are almost done!"
+	echo "Finish generating consensus motif. Our Job is completed!"
 fi
 cd ..
 
@@ -389,38 +389,37 @@ cd ..
 ##########################################################
 
 #convert consensus motif to homer format
-if [ ! -d "Consensus_Homer_motif" ];then
-	mkdir Consensus_Homer_motif
-fi
-echo "Consensus_Homer_motif folder contains consensus motif in homer format" >> Consensus_Homer_motif/README.txt
+#if [ ! -d "Consensus_Homer_motif" ];then
+#	mkdir Consensus_Homer_motif
+#fi
+#echo "Consensus_Homer_motif folder contains consensus motif in homer format" >> Consensus_Homer_motif/README.txt
 
-cd Cluster_consensus
-for file in *.consensus;
-do 
-	echo "Trying to convert consensus motif in $file to homer format ..."
-	python $DIR"/MovrsConsensus2homer.py" -i $file -o "../Consensus_Homer_motif/"${file/consensus/homer}
-	echo "Succeed converting $file to homer format"
-	echo ""
-done
-
-if [ "$?" -eq "1" ];then
-	echo "Something goes wrong when trying to convert consensus motif to homer format!"
-else
-	echo "Finish converting consensus motif to homer format!"
-fi
+#cd Cluster_consensus
+#for file in *.consensus;
+#do 
+#	echo "Trying to convert consensus motif in $file to homer format ..."
+#	python $DIR"/MovrsConsensus2homer.py" -i $file -o "../Consensus_Homer_motif/"${file/consensus/homer}
+#	echo "Succeed converting $file to homer format"
+#	echo ""
+#done
+#
+#if [ "$?" -eq "1" ];then
+#	echo "Something goes wrong when trying to convert consensus motif to homer format!"
+#else
+#	echo "Finish converting consensus motif to homer format!"
+#fi
 
 #use HOMER annotatePeaks.pl to identify motif positions on the reference genome
-cd Consensus_Homer_motif
-for file in *.homer;
-do 
-	echo "Begin annotatePeaks.pl for motif $file ..."
-	annotatePeaks.pl $position $genome -m $file > ${file/homer/out}
-	echo "Finish annotatePeaks.pl for motif $file !"
-	echo ""
-done
+#cd Consensus_Homer_motif
+#for file in *.homer;
+#do 
+#	echo "Begin annotatePeaks.pl for motif $file ..."
+#	annotatePeaks.pl $position $genome -m $file > ${file/homer/out}
+#	echo ""
+#done
 
-echo ".out files are results of annotatePeaks for each motif cluster" >> README.txt
+#echo ".out files are results of annotatePeaks for each motif cluster" >> README.txt
 
-echo "Finally, out job is completed. Check README.txt for information about output files"
+#echo "Finally, out job is completed. Check README.txt for information about output files"
 
 
