@@ -1,5 +1,5 @@
 #this script reads file containing list of motif names and print put several files each containg motifs for one group in MEME format.
-
+#!/usr/bin/env python
 import argparse,math
 #ParseMEME parse the combined motif file into a dictionary, key is the name of motif, and value is a string containg all the content for this motif.
 def ParseMEME(filePath):

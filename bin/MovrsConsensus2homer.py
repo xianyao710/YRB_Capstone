@@ -1,5 +1,5 @@
 #this script takes consensus motif as input and output homer motif
-
+#!/usr/bin/env python
 import os, argparse
 
 class Consensus:

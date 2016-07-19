@@ -1,5 +1,5 @@
 #this is a python script to extract motif clusters 
-
+#!/usr/bin/env python
 import networkx as nx
 import argparse
 
