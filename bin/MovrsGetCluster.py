@@ -18,7 +18,7 @@ if __name__ == "__main__":
 	graphs = list(nx.connected_component_subgraphs(G))
 	cluster = []
 	for each in graphs:
-		if len(each)>= args.threshold:
+		if len(each)>= int(args.threshold):
 			cluster.append(each)
 	print("There are %d clusters identified\n" %(len(cluster)))	
 	output = nx.Graph()
