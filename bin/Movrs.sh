@@ -5,7 +5,7 @@
 #-----------------------------------------------------------------------------#
 #requirement:								      #	
 #HOMER, MEME should be installed. findMotifsGenome.pl, annotatePeaks.pl and   #
-# tomtom should be added to your environmental path.                          #          #                                                                             #
+# tomtom should be added to your environmental path.                          #                                            
 #-----------------------------------------------------------------------------#
 #Python packages "networkX" and "matplotlib.pyplot" are needed for graphical  #
 #anaylsis. There may be other pre-required package needed for ploting graphs  #
@@ -176,14 +176,17 @@ fi
 echo "begin cross-validation process ------>"
 grep "^[^#]" $position > tmp.txt #ignore comment lines
 shuf -o tmp.new tmp.txt
-bash MovrsSplit.sh tmp.new $fold group        #split peak files into k groups of equal size
+bash $DIR"/MovrsSplit.sh" tmp.new $fold group        #split peak files into k groups of equal size
 
 if [ "$?" -eq "1" ];then
 	echo "Something goes wrong when using shuf and split"
 	exit 1
 fi
 
-for file in group*;do mv $file ${file/./};done  #change file name e.g. group.01 changed into group01
+for file in group*;
+do 
+	mv $file ${file/./}
+done  #change file name e.g. group.01 changed into group01
 mv group* test_group
 rm tmp.txt
 rm tmp.new
@@ -191,7 +194,10 @@ rm tmp.new
 
 cd test_group
 shopt -s extglob	# for running th command below
-for file in group*;do cat -- !($file) > "../train_group/"${file/group/train};done   # concatenate remaining files as training set in each round
+for file in group*;
+do 
+	cat -- !($file) > "../train_group/"${file/group/train}
+done   # concatenate remaining files as training set in each round
 
 
 if [ "$?" -eq "1" ];then
@@ -212,7 +218,8 @@ fi
 #use HOMER script findMotifsGenome.pl to predict novel motifs in 
 cd ../train_group
 echo "begin HOMER findMotifsGenome.pl --->"
-for file in train*;do 
+for file in train*;
+do	
 	echo "Begin findMotifsGenome.pl for $file set..."
 	findMotifsGenome.pl $file $genome $file"_Homer_out" -len $length -size $size
 	echo "motif finding for $file is completed"
@@ -280,6 +287,9 @@ if [ "$?" -eq "1" ];then
 	echo "Something goes wrong trying to use tomtom!"
 	if [ -d "tomtom_out" ];then
 		echo " we still continue to analyze"
+	else
+		echo " we can not continue without tomtom.txt"
+		exit 1
 	fi
 else
 	echo "tomtom motif comparison is completed!"
