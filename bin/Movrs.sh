@@ -150,7 +150,9 @@ else
 	genome=$GENOME                          #use reference genome name built-in homer
 fi
 outdir=$(readlink -f $outdir)
-
+if [ ! -d "$outdir" ];then
+	mkdir $outdir
+fi
 echo ""
 echo "Configuration for command line input is completed!"
 #change directory to output path
