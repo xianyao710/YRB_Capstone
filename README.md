@@ -13,11 +13,13 @@ $wget https://github.com/xianyao710/YRB_Capstone/blob/master/MoVRs.tar.gz
 $tar -xzvf MoVRs.tar.gz
 ```
 Add the bin/ directory to envrionment path
+
 ```
 $PATH=$PATH:/your working directory/MoVRs/bin
 $export PATH
 ```
 Also, you need to add the bin/ directory to PYTHONPATH
+
 ```
 $ vi ~/.bashrc
 $ export PYTHONPATH="${PYTHONPATH}:/path/to/bin/"
