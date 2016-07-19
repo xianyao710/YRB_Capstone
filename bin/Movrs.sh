@@ -18,7 +18,6 @@
 
 #!/bin/bash
 set -e 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ######################################
 #Step 1				     #	
 #Check required program and packages #
@@ -176,7 +175,7 @@ fi
 echo "begin cross-validation process ------>"
 grep "^[^#]" $position > tmp.txt #ignore comment lines
 shuf -o tmp.new tmp.txt
-bash $DIR"/MovrsSplit.sh" tmp.new $fold group        #split peak files into k groups of equal size
+bash MovrsSplit.sh tmp.new $fold group        #split peak files into k groups of equal size
 
 if [ "$?" -eq "1" ];then
 	echo "Something goes wrong when using shuf and split"
@@ -255,7 +254,7 @@ fi
 
 for file in *.homer;
 do
-	Rscript $DIR"/MovrsMotif2meme.R" $file "../Train_meme/"${file/homer/meme}
+	Rscript MovrsMotif2meme.R $file "../Train_meme/"${file/homer/meme}
 done	
 #process the raw_homer motif to meme format
 raw_meme="all_train.meme"
@@ -271,7 +270,7 @@ fi
 
 #filter meme motifs 
 tmp="tmp.txt"
-python $DIR"/MovrsExtractMotif.py" -i $raw_meme -t $evalue -o $tmp
+python MovrsExtractMotif.py -i $raw_meme -t $evalue -o $tmp
 rm $raw_meme
 mv $tmp $raw_meme
 
@@ -311,7 +310,7 @@ cd Clustering_out
 echo "Clustering_out contains results of motif clustering and merging" >> README.txt
 #extract motif clusters in graph
 ClusterThresh=$((fold-1))
-python $DIR"/MovrsGetCluster.py" -i raw_edgelist -t $ClusterThresh
+python MovrsGetCluster.py -i raw_edgelist -t $ClusterThresh
 
 if [ "$?" -eq "1" ];then
 	echo "Woops, something goes wrong when trying to extract clusters from motif similarity graph!"
@@ -342,7 +341,7 @@ echo "Cluster_meme folder contains meme motif extracted from similarity graph" >
 cd Nodes
 for file in cluster*.txt;
 do 
-	python $DIR"/MovrsExtractMotif.py" -i $raw_meme -n $file -o "../Cluster_meme/"${file/txt/meme}
+	python MovrsExtractMotif.py -i $raw_meme -n $file -o "../Cluster_meme/"${file/txt/meme}
 	echo "Trying to extract motifs in $file from raw motif set"
 done 
 
@@ -395,7 +394,7 @@ cd Cluster_consensus
 for file in *.consensus;
 do 
 	echo "Trying to convert consensus motif in $file to homer format ..."
-	python $DIR"/MovrsConsensus2homer.py" -i $file -o "../Consensus_Homer_motif/"${file/consensus/homer}
+	python MovrsConsensus2homer.py -i $file -o "../Consensus_Homer_motif/"${file/consensus/homer}
 	echo "Succeed converting $file to homer format"
 	echo ""
 done
