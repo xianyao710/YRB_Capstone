@@ -36,7 +36,7 @@ else
 fi
 
 type MovrsGetCluster.py
-if [ "$?" -eq "1"];then
+if [ "$?" -eq "1" ];then
 	echo "The bin/ directory is not added to PYTHONPATH"
 	exit 1
 else
