@@ -86,5 +86,5 @@ Movrs -g `<`fasta genome file provided by users`>`
 
 ###Simple command
 ```
-$Movrs -p sample/tss_hs_A549_chr15.txt -G hg19
+$Movrs.sh -p sample/tss_hs_A549_chr15.txt -G hg19
 ```
