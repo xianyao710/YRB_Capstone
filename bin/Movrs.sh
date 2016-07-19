@@ -273,7 +273,7 @@ tmp="tmp.txt"
 python MovrsExtractMotif.py -i $raw_meme -t $evalue -o $tmp
 rm $raw_meme
 mv $tmp $raw_meme
-
+raw_meme=$(readlink -f $raw_meme)
 if [ "$?" -eq "1"];then
 	echo "Something goes wrong trying to filter raw motifs with specfic theshold"
 else
