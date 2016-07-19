@@ -16,8 +16,8 @@
 ############################################################################### 
 
 #!/bin/bash
-set -e
-set -o
+set -eu 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ######################################
 #Step 1				     #	
 #Check required program and packages #
@@ -61,7 +61,7 @@ while [ "$1" != "" ];do
 	-f | --fold)	shift
 			fold=$1
 			;;
-	-e | --extract) shift
+	-e | --evalue) shift
 			evalue=$1
 			;;
 	-t | --thresh)  shift
@@ -83,14 +83,14 @@ while [ "$1" != "" ];do
 			echo ""
 			echo "-g or --genome for 2nd argument :reference genome"
 			echo "usually in fasta format"
-			echo "or -G/--GENOME for build-in reference genome in homer"
+			echo "or -G/--GENOME for build-in reference genome in homer e.g. hg19"
 			echo ""
 			echo "-s or --size for the sequence window centered on mid point e.g. -60,40 is default"
 			echo "-l pr --length for length of motifs e.g. -len 6,8,10,12 is default"
 			echo ""
 			echo "[Optional argument]"
 			echo "-f or --fold numeric number for k-fold cross validation"
-			echo "-e or --extract for filtering out motifs with evalue bigger than this parameter"
+			echo "-e or --evalue for filtering out motifs with evalue bigger than this parameter"
 			echo "-t or --thresh for tomtom comparison"
 			echo "-o or --output for output directory"
 			echo ""
