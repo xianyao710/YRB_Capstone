@@ -182,7 +182,7 @@ if [ "$?" -eq "1" ];then
 	exit 1
 fi
 
-for file in group*;
+for file in group[0-1][0-9];
 do 
 	mv $file ${file/./}
 done  #change file name e.g. group.01 changed into group01
@@ -193,7 +193,7 @@ rm tmp.new
 
 cd test_group
 shopt -s extglob	# for running th command below
-for file in group*;
+for file in group[0-1][0-9];
 do 
 	cat -- !($file) > "../train_group/"${file/group/train}
 done   # concatenate remaining files as training set in each round
@@ -217,7 +217,7 @@ fi
 #use HOMER script findMotifsGenome.pl to predict novel motifs in 
 cd ../train_group
 echo "begin HOMER findMotifsGenome.pl --->"
-for file in train*;
+for file in train[0-1][0-9];
 do	
 	echo "Begin findMotifsGenome.pl for $file set..."
 	findMotifsGenome.pl $file $genome $file"_Homer_out" -len $length -size $size
@@ -237,7 +237,7 @@ if [ ! -d "../Train_Homer" ];then
 fi
 echo "Train_Homer contains homer motifs for all training sets" >> ../Train_Homer/README.txt
 
-for file in train*[0-9];
+for file in train[0-1][0-9];
 do 
 	cp $file"_Homer_out/homerMotifs.all.motifs" "../Train_Homer/"$file".homer"
 done
