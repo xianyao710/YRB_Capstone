@@ -165,8 +165,12 @@ cd $outdir
 
 #separate peak or bed files randomly into k group for k-fold cross validation
 echo "You have chosen $fold-fold cross validation" 
-mkdir test_group
-mkdir train_group
+if [ ! -d "test_group" ];then
+	mkdir test_group
+fi
+if [ ! -d "train_group" ];then
+	mkdir train_group
+fi
 
 echo "begin cross-validation process ------>"
 grep "^[^#]" $position > tmp.txt #ignore comment lines
@@ -201,7 +205,7 @@ fi
 
 #########################################################
 #Step 4							#		
-#User HOMER to predict motifs in regions in training set#
+#Use HOMER to predict motifs in regions in training set #
 #########################################################
 
 #use HOMER script findMotifsGenome.pl to predict novel motifs in 
@@ -221,7 +225,9 @@ else
 	echo "Motif finding for all training sets is completed!"
 fi
 
-mkdir ../Train_Homer
+if [ ! -d "../Train_Homer" ];then
+	mkdir ../Train_Homer
+fi
 echo "Train_Homer contains homer motifs for all training sets" >> ../Train_Homer/README.txt
 
 for file in train*[0-9];do cp $file"_Homer_out/homerMotifs.all.motifs" "../Train_Homer/"$file".homer";done
@@ -254,7 +260,7 @@ fi
 
 #filter meme motifs 
 tmp="tmp.txt"
-python MovrsExtract_motif.py -i $raw_meme -t $evalue -o $tmp
+python MovrsExtractMotif.py -i $raw_meme -t $evalue -o $tmp
 rm $raw_meme
 mv $tmp $raw_meme
 
@@ -310,15 +316,16 @@ else
 	exit 1
 fi
 mv cluster*.txt Nodes/
-
-mkdir Cluster_meme
+if [ ! -d "Cluster_meme" ];then
+	mkdir Cluster_meme
+fi
 echo "Cluster_meme folder contains meme motif extracted from similarity graph" >> Cluster_meme/README.txt	
 
 #generate motif group files in meme format
 cd Nodes
 for file in cluster*.txt;
 do 
-	python MovrsExtract_motif.py -i $raw_meme -n $file -o "../Cluster_meme/"${file/txt/meme}
+	python MovrsExtractMotif.py -i $raw_meme -n $file -o "../Cluster_meme/"${file/txt/meme}
 	echo "Trying to extract motifs in $file from raw motif set"
 done 
 
@@ -336,7 +343,9 @@ fi
 ##########################################
 
 cd ../Cluster_meme
-mkdir ../Cluster_consensus
+if [ ! -d "../Cluster_consensus" ];then
+	mkdir ../Cluster_consensus
+fi
 echo "Cluster_consensus folder contains the consensus motifs for each cluster" >> ../Cluster_consensus/README.txt
 
 for file in *.meme;
@@ -360,7 +369,9 @@ cd ..
 ##########################################################
 
 #convert consensus motif to homer format
-mkdir Consensus_Homer_motif
+if [ ! -d "Consensus_Homer_motif" ];then
+	mkdir Consensus_Homer_motif
+fi
 echo "Consensus_Homer_motif folder contains consensus motif in homer format" >> Consensus_Homer_motif/README.txt
 
 cd Cluster_consensus
