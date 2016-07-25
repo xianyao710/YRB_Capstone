@@ -222,10 +222,11 @@ cd ../train_group
 echo "begin HOMER findMotifsGenome.pl --->"
 for file in train[0-1][0-9];
 do	
-	echo "Begin findMotifsGenome.pl for $file set..."
-	findMotifsGenome.pl $file $genome $file"_Homer_out" -len $length -size $size
-	echo "motif finding for $file is completed"
+sem -j+0 	echo "Begin findMotifsGenome.pl for $file set..."
+		findMotifsGenome.pl $file $genome $file"_Homer_out" -len $length -size $size
+		echo "motif finding for $file is completed"
 done
+sem --wait
 
 if [ "$?" -eq "1" ];then
 	echo "Oh, something wrong when finding motifs all training sets!"
