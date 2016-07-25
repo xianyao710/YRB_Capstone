@@ -419,6 +419,11 @@ done
 
 echo "Finish generating SeqLogo for validated motifs"
 
+echo ""
+
+echo "Motifs can be found in Cluster_consensus folder"
+
+echo "SeqLogo of motifs can be found in figure folder"
 
 
 
