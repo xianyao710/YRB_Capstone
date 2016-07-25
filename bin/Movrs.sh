@@ -383,6 +383,53 @@ else
 fi
 cd ..
 
+####################################
+#Step 8                            #
+#Remove temporary files            #
+####################################
+echo "Deleting  temporary files ------>"
+rm -rf Cluster_meme
+rm -rf Nodes
+rm raw_edgelist
+
+rm -rf ../Train_meme
+rm -rf ../Train_Homer
+rm -rf ../test_group
+rm -rf ../train_group
+rm $raw_meme
+rm -rf ../tomtom_out
+echo "Temporary files are deleted!"
+
+
+####################################
+#Step 9                            #
+#Generate html output              #
+####################################
+
+#generate SeqLogo for each consensus motif
+if [ ! -d "figure"];then
+	mkdir "figure"
+fi
+
+cd Cluster_consensus
+for file in *.consensus;
+do
+	Rscript $DIR"/MovrsSeqLogo4cluster.R" $file "../figure/"
+done	
+
+echo "Finish generating SeqLogo for validated motifs"
+
+
+
+
+
+
+
+
+
+
+
+
 ##########################################################
 #Step 8							 #
 #Genereate homer motifs and annotate their positions     #
