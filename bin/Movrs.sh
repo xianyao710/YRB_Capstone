@@ -462,33 +462,11 @@ echo "Annotation of the predicted motifs is completed. Check the html files for 
 
 
 ##########################################################
-#Step 8							 #
-#Genereate homer motifs and annotate their positions     #
+#Step 11					         #
+#Annotate position of novel motifs                       #
 ##########################################################
-
-#convert consensus motif to homer format
-#if [ ! -d "Consensus_Homer_motif" ];then
-#	mkdir Consensus_Homer_motif
-#fi
-#echo "Consensus_Homer_motif folder contains consensus motif in homer format" >> Consensus_Homer_motif/README.txt
-
-#cd Cluster_consensus
-#for file in *.consensus;
-#do 
-#	echo "Trying to convert consensus motif in $file to homer format ..."
-#	python $DIR"/MovrsConsensus2homer.py" -i $file -o "../Consensus_Homer_motif/"${file/consensus/homer}
-#	echo "Succeed converting $file to homer format"
-#	echo ""
-#done
-#
-#if [ "$?" -eq "1" ];then
-#	echo "Something goes wrong when trying to convert consensus motif to homer format!"
-#else
-#	echo "Finish converting consensus motif to homer format!"
-#fi
-
 #use HOMER annotatePeaks.pl to identify motif positions on the reference genome
-#cd Consensus_Homer_motif
+
 #for file in *.homer;
 #do 
 #	echo "Begin annotatePeaks.pl for motif $file ..."
