@@ -18,7 +18,16 @@ if __name__ == "__main__":
 	graphs = list(nx.connected_component_subgraphs(G))
 	cluster = []
 	for each in graphs:
-		if len(each)>= int(args.threshold):
+		#exclude the possibility that a cluster only contains motifs in a single training set
+		node_list=each.nodes()
+		train_set=[]
+		for tmp in node_list:
+			group_number=tmp.split("_")[1]#e.g. motif_01_05 is the 5th motif in training set 1, so group_number should be "01"
+			if group_number not in train_set:
+				train_set.append(group_number)
+
+		#extract connected components which contain at least 9 nodes from different training sets
+		if len(train_set)>= int(args.threshold):
 			cluster.append(each)
 	print("There are %d clusters identified\n" %(len(cluster)))	
 	output = nx.Graph()
