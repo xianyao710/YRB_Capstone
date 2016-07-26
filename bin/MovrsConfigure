@@ -8,6 +8,15 @@ else
 	echo "shuf seems to work fine"
 fi
 
+#sem is for GNU parallel running command in for loop, users need to install GNU version of package "parallel"
+type sem
+if [ "$?" -eq "1"];then
+	echo "sem aka. parallel --semaphore is not available"
+	exit 1
+else
+	echo "sem seems to work fine"
+fi
+
 type findMotifsGenome.pl
 type annotatePeaks.pl 
 

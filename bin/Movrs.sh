@@ -53,6 +53,9 @@ while [ "$1" != "" ];do
 	-G | --GENOME)  shift
 			GENOME=$1
 			;;
+	-j | --cores)	shift
+			CORES=$1
+			;;
 	-s | --size)	shift
 			size=$1
 			;;
@@ -86,6 +89,8 @@ while [ "$1" != "" ];do
 			echo "usually in fasta format"
 			echo "or -G/--GENOME for build-in reference genome in homer e.g. hg19"
 			echo ""
+			echo "-j or --cores for number of available cores"
+			echo ""
 			echo "-s or --size for the sequence window centered on mid point e.g. -60,40 is default"
 			echo "-l pr --length for length of motifs e.g. -len 6,8,10,12 is default"
 			echo ""
@@ -105,6 +110,9 @@ done
 
 #configure default parameters if not provided by the user
 #optional parameters
+if [ -z "$CORES"];then
+	CORES=2
+fi
 if [ -z "$fold" ];then
 	fold=10
 fi
@@ -222,9 +230,9 @@ cd ../train_group
 echo "begin HOMER findMotifsGenome.pl --->"
 for file in train[0-1][0-9];
 do	
-sem -j+0 	echo "Begin findMotifsGenome.pl for $file set..."
-		findMotifsGenome.pl $file $genome $file"_Homer_out" -len $length -size $size
-		echo "motif finding for $file is completed"
+	echo "Begin findMotifsGenome.pl for $file set..."
+	sem -j $CORES findMotifsGenome.pl $file $genome $file"_Homer_out" -len $length -size $size
+	echo "motif finding for $file is completed"
 done
 sem --wait
 
