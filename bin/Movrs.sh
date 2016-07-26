@@ -435,10 +435,27 @@ echo "Motifs can be found in Cluster_consensus folder"
 echo "SeqLogo of motifs can be found in figure folder"
 
 
+##################################################################
+#Step 10							 #	
+#Convert consensus motif to homer format and run compareMotifs.pl#
+##################################################################
+if [ ! -d "../Cluster_homer"];then
+	mkdir ../Cluster_homer
+fi
 
+for file in *.consensus;
+do 
+	python $DIR"/MovrsConsensus2homer.py" -i $file -o "../Cluster_homer/"${file/consensus/homer}
+done
 
+cd ../Cluster_homer
 
+for file in *.homer;
+do
+	compareMotifs.pl $file ./
+done
 
+echo "Annotation of the predicted motifs is completed. Check the html files for detail"
 
 
 
