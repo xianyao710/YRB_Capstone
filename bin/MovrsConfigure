@@ -51,3 +51,10 @@ if [ "$?" -eq "1" ];then
 else
 	echo "Everything looks fine"
 fi
+
+type seqlogo
+if [ "$?" -eq "1" ];then
+	echo "seqlogo doesn't work from the command line"
+else
+	echo "seqlogo works fine"
+fi
