@@ -25,5 +25,5 @@ python module "networkx" and "matplotlib.pyplot" should pre-installed for graphi
 (python version should be higher than 2.6 for running "networkx")
 
 
-
+R package seqLogo and Weblogo tools are needed for plotting motifs
 
